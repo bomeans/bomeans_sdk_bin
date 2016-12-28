@@ -81,5 +81,27 @@ Two types of remote controllers can be created:
 | IRKit.createRemote | Create single remote (with specific remote id), or<br>create simple universal remote (with null as remote id) | BIRRemote | Both TV-type and AC-type remotes are supported.<br>The 'simple' universal remote indicates only a few most used buttons are conatined in the returned universal remote controller.
 | IRKit.createBigCombineRemote | Create complete universal remote | BIRRemote | Only TV-type remotes are supported.<br>The 'complete' universal remote indicates the the remote contains full keys of the underlying remote controllers.
 
+#Remote Controller Manipulation
+
+Once the Remote Controller instance (BIRRemote) is created, you can manipulate the remote by using the following APIs:
+
+| API | Description | TV-type<br>Remote | TV-type<br>Universal Remote | AC-type<br>Remote | AC-type<br>Universal Remote
+| ------------- | ---------------------------------------------------------------| ----- | ----- | ----- | -----
+| getAllKeys | Get all key(button) of the remote | V | V | V | V
+| getModuleName	| Get the appliance model names for this remote | V	| | V |
+| getBrandName | Get the brand name of this remote | V | V | V | V
+| transmitIR | Send the IR data | V | V | V | V
+| beginTransmitIR | Start a IR transmission<br>(Call endTrasmitIR to stop transmission) | V			
+| endTransmitIR | Stop IR transmission | V			
+| getGUIFeature | Get the display option for AC remote | | | V |	
+| getActiveKeys | Get the currently active key(button) of the AC remote | | | V | V
+| getKeyOption | Get the currently active options of the specific key(button) of a AC remote  | | | V | V	
+| getTimerKeys | Get the timer-related keys(buttons) of the AC remote | | | V |	
+| setOnTime | Set the ON timer of the AC remote  | | | V |
+| setOffTime | Set the OFF timer of the AC remote | | | V |
+| getACStoreDatas | Get the data of current states of the AC remote<br>(For storing the states of the AC remote) | | | V | V	
+| restoreACStoreDatas | Restore the current states of the AC remote | | | V | V	
+
+
 
 
