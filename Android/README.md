@@ -130,6 +130,8 @@ To create a smart picker instance, call ```IRKit.createSmartPicker``` and get th
 | keyResult	| Pass the user feedback to the picker | returned <li> BIR_PNext(More test is needed)</li><li>BIR_PFind (Test completed)</li><li>BIR_PFail(No matched remote)</li>
 | getPickerResult | Get the matched remotes once the test is completed | Return the matched remote ID(s)
 
+![Smart Picker Flow](../_docs/Smart-picker-flow.png?raw=true "Smart Picker Flowchart")
+
 #IR Learning
 
 
