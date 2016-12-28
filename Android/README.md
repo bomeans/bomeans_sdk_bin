@@ -57,17 +57,29 @@ These APIs are asynchronous, the results will be returned in the callbacks.
 
 | API	| Description | Returned Object in Callback
 | ------------- | ------------------ | -------------
-| webGetTypeList | Get type list | TypeItem
-| webGetBrandList	| Get brand list | BrandItem
-| webGetTopBrandList | Get popular brand list | BrandItem (Note1)
-| webGetModelList	| Get remote ID list |	ModelItem (Note2)
-| webVSearch	| Get remote ID list by keyword |	VoiceSearchResultItem (Note3)
+| IRKit.webGetTypeList | Get type list | TypeItem
+| IRKit.webGetBrandList	| Get brand list | BrandItem
+| IRKit.webGetTopBrandList | Get popular brand list | BrandItem (Note1)
+| IRKit.webGetModelList	| Get remote ID list |	ModelItem (Note2)
+| IRKit.webVSearch	| Get remote ID list by keyword |	VoiceSearchResultItem (Note3)
 
 Notes
 
 <li>1: Popular brand list is the ranked list according to the popularity.</li>
 <li>2: Remote ID is the internal unique id for each remote controller in the database. This ID is not necessary the model name of the remote controller itself or the model name of the appliance.</li>
 <li>3: The keywords for searching the remote controllers are usually the one containing the type, brand, and/or the button name. For example, "Turn on the Panasonic TV" is a valid search string that conatins the type (TV), brand name (Panasonic), and the optional button name (Turn on as power button.)</li>
+
+#Creating the Remote Controller Instance
+
+Two types of remote controllers can be created:
+
+<li>Universal Remote Controller - Univeral remote Controller is a pseudo remote controller which contains several most used remote controllers. When a button of the universal remote is pressed, the IR signals corresponding the underlying remote controllers will be send in a batch.</li>
+<li>Single Remote Controller - Single remote controller in the database.</li>
+
+| API | Description | Callback | Remark
+|------------------- | ---------------------------------------------------- | ----------- | ------------------------------
+| IRKit.createRemote | Create single remote (with specific remote id), or<br>create simple universal remote (with null as remote id) | BIRRemote | Both TV-type and AC-type remotes are supported.<br>The 'simple' universal remote indicates only a few most used buttons are conatined in the returned universal remote controller.
+| IRKit.createBigCombineRemote | Create complete universal remote | BIRRemote | Only TV-type remotes are supported.<br>The 'complete' universal remote indicates the the remote contains full keys of the underlying remote controllers.
 
 
 
