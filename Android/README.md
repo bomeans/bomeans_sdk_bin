@@ -133,6 +133,225 @@ To create a smart picker instance, call ```IRKit.createSmartPicker``` and get th
 ![Smart Picker Flow](../_docs/Smart-picker-flow.png?raw=true "Smart Picker Flowchart")
 
 #IR Learning
+##Introduction of IR Learning
+Two operation modes are supported:
+<li>Learn and Store: Act as a IR signal recorder/player. The IR signal is learned (recorded) and can be re-transmit (replay). The App or the host CPU is responsible for storing the learned IR data.</li>
+<li>Learn and Match: The learned IR data is analyzed by the SDK for extracting the characteristics, these characteristics are then sent to the cloud for matching the existing remote controller(s).</li>
+
+The "Learn and Store" is for traditional IR learning application. For the remote controller not registered to the cloud database, learning provides a way to copy the IR signal for controlling the target appliance.
+
+For the "Learn and Match", it provides an alternative way to picking out the correct remote controller from the database. User can press only several keys of the remote controller and the cloud can find the same or similar remote controller for him.
+
+###Learn and Store
+The learned IR data (for a specific key on the remote) can be passed back to the App in a compressed form. The App or host application can save the data in its own storage with the specific key name or key ID. To replay the IR signal, simply read the data back from storage and send to the SDK for transmission.
+
+![Fig.1](../_docs/learning_diagrams_1.png)
+
+###Learn and Match
+Learn and Match allow the learned IR data to be analyzed and sent to the cloud for matching the existing remote controllers in database. This is sutable for 
+<li>Providing a easy way to find the exact the same or similar remote controller(s) by only a few key presses on the remote controller.</li>
+<li>Download the similar remote controller to reduce the number of amount of keys to be learned. User need to learn the keys not exist or not matched with their target appliance.</li>
+
+![Fig.2](../_docs/learning_diagrams_2.png)
+
+##Learning APIs
+The learning APIs are separated into two parts. The upper APIs are for App to issue commands to switch the IR Blaster into learning mode, and receive the learned IR data from the callbacks. The lower APIs are for passing the data comes from the IR blaster back to the SDK for processing. 
+
+![Fig.3](../_docs/learning_diagrams_3.png)
+
+###Lower APIs
+SDK provides a BIRIRBlaster interface for briding the in/out data between the SDK and the IR Blaster hardware. The App should have a instance which extends the BIRIRBlaster interface, and passing this instance to the SDK via IRKit.setIRHW(). Once this is done, all communication data for the IR Blaster hardware will be passed through the instance the App provided. 
+
+Note: How to handle the communication data in/out to/from the IR Blaster is depending on the product specific communication channel therefore is not covered in this document.
+
+Here's an example:
+
+```
+public class MyNetworkIRDevice implements BIRIRBlaster {
+    private BIRReceiveDataCallback mReceiveDataCallback = null;
+
+@Override
+public int sendData(byte[] irData) {
+    // send data to IR Blaster
+    sendToNetwrok(irData)
+    return IRKit.BIROK;
+}
+@Override
+public int isConnection() {
+    // check IR Blaster connection status
+    if (deviceIsConnected()) {
+        return IRKit.BIROK;
+    } else {
+        return IRKit.BIRNotConnectToNetWork;
+    }
+}
+
+@Override
+public void setReceiveDataCallback(BIRReceiveDataCallback birReceiveDataCallback) {
+    // keep this callback.
+    // all the traffic come from the IR Blaster should be passed back to the SDK via this callback.
+    mReceiveDataCallback = birReceiveDataCallback;
+}
+
+public void onNetworkDataArrived(byte[] irLearningData) {
+    // Once the data from IR Blaster is received, pass it back to SDK (all data should pass back to SDK)
+    if (null != mReceiveDataCallback) {
+        mReceiveDataCallback.onDataReceived(irLearningData);
+    }
+}
+}
+```
+##Upper APIs
+The App should first create a BIRReader instance for manipulating the learning functions.
+
+Here's an example for creating a BIRReader instance:
+
+```
+// initialize SDK
+IRKit.setup(API_KEY, getApplicationContext());
+
+// create and get the BIRReader instance from the callback
+IRKit.createIRReader(forceReload, new BIRReaderCallback() {
+    @Override
+    public void onReaderCreated(BIRReader birReader) {
+        // get the BIRReader instance
+        mMyIrReader = birReader;
+    }
+    @Override
+    public void onReaderCreateFailed() {
+        // error handling
+    }
+}
+```
+
+Once the BIRReader instance is created, use the following BIRReader APIs to do the learning manipulations.
+
+| API | Description
+| ---------------- | ---------------------------------
+| startLearningAndGetData() | Start a learning session, and get the result from the callback
+| startLearningAndSearchCloud() | Start a learning session, and get the matched remote IDs from the callback
+| stopLearning() | Abort the learning (Note: Each learning session will be ended automatically either a valid IR signal is learned or 15 seconds time-out time is reached.)
+| sendLearningData() | The learning data got from startLearningAndGetData() can be passed into this function for re-transmission.
+| reset() | Reset the startLearningAndSearchCloud() session.(startLearningAndSearchCloud will cache the previously passed-in learning data. If reset() is not called, invoke startLearningAndSearchCloud() twice with different learning data will result in passing two learning data to the cloud to match the remote(s) conaining both IR data.)
+
+Example:
+
+```
+mIrReader.startLearningAndGetData(
+    BIRReader.PREFER_REMOTE_TYPE.Auto, 
+    new BIRReader.BIRReaderFormatMatchCallback() {
+    @Override
+    public void onFormatMatchSucceeded(final BIRReader.ReaderMatchResult readerMatchResult) {
+        // Format match result
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (readerMatchResult.isAc()) {
+                    // if the matched remote is AC-type
+                } else {
+                    // if the matched remote is TV-type
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onFormatMatchFailed(BIRReader.FormatParsingErrorCode errorCode) {
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // doing GUI error handling
+            }
+        });
+    }
+
+    @Override
+    public void onLearningDataReceived(final byte[] learningDataBytes) {
+
+        // Get learned IR data
+        mLearnedDataForSending = learningDataBytes;
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // GUI handling
+            }
+        });
+    }
+
+    @Override
+    public void onLearningDataFailed(BIRReader.LearningErrorCode errorCode) {
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // doing GUI error handling
+            }
+        });
+    }
+});
+
+// Transmit Learned Data example:
+
+mSendButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+        if (mLearnedDataForSending != null) {
+            if (null != mIrReader) {
+                mIrReader.sendLearningData(mLearnedDataForSending);
+            }
+        }
+    }
+});
+
+
+// Learn and Recognize example:
+
+mIrReader.startLearningAndSearchCloud(
+    false, preferRemoteType, new BIRReader.BIRReaderRemoteMatchCallback() {
+    @Override
+    public void onRemoteMatchSucceeded(final List<BIRReader.RemoteMatchResult> list) {
+        // get the matched remote controller list
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showMatchResult(list); // showing match results 
+            }
+        });
+    }
+
+    @Override
+    public void onRemoteMatchFailed(BIRReader.CloudMatchErrorCode errorCode) {
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // doing GUI error handling
+            }
+        });
+    }
+
+    @Override
+    public void onFormatMatchSucceeded(final List<BIRReader.ReaderMatchResult> list) {
+        // Format match results
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // GUI handling
+            }
+        });
+    }
+
+    @Override
+    public void onFormatMatchFailed(final BIRReader.FormatParsingErrorCode errorCode) {
+        thisActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // doing GUI error handling
+            }
+        });
+    }
+});
+```
+
 
 
 
