@@ -90,10 +90,10 @@ Once the Remote Controller instance (BIRRemote) is created, you can manipulate t
 | getAllKeys | Get all key(button) of the remote | V | V | V | V
 | getModuleName	| Get the appliance model names for this remote | V	| | V |
 | getBrandName | Get the brand name of this remote | V | V | V | V
-| transmitIR | Send the IR data | V | V | V | V
+| transmitIR | Send the IR data (Note1) | V | V | V | V
 | beginTransmitIR | Start a IR transmission<br>(Call endTrasmitIR to stop transmission) | V			
 | endTransmitIR | Stop IR transmission | V			
-| getGUIFeature | Get the display option for AC remote | | | V |	
+| getGUIFeature | Get the display option for AC remote (Note2) | | | V |	
 | getActiveKeys | Get the currently active key(button) of the AC remote | | | V | V
 | getKeyOption | Get the currently active options of the specific key(button) of a AC remote  | | | V | V	
 | getTimerKeys | Get the timer-related keys(buttons) of the AC remote | | | V |	
@@ -101,6 +101,20 @@ Once the Remote Controller instance (BIRRemote) is created, you can manipulate t
 | setOffTime | Set the OFF timer of the AC remote | | | V |
 | getACStoreDatas | Get the data of current states of the AC remote<br>(For storing the states of the AC remote) | | | V | V	
 | restoreACStoreDatas | Restore the current states of the AC remote | | | V | V	
+
+Notes:
+
+<li>1. For the AC remotes, an optional "key option" parameter can be passed to switch the remote controller to the specified key state (such as switch the mode to Cool mode directly.) If the "key option" is obmitted, the key state will switch to next available state cycliclly.</li>
+<li>2. The display option of the AC remote could be one of the following values
+
+| Value | Descroption
+| -------------------------- | ------------------------------------------
+| BIRGuiDisplayType_NO | This AC remote does not have a display panel
+| BIRGuiDisplayType_YES | This AC remote has a normal display panel <br>(The panel is off when power on; is off when power off)
+| BIRGuiDisplayType_ALWAYS | The panel is always on regardless of the power state (on or off)
+
+Most display panel type of AC remotes is BURGuiDisplayType_Yes.
+
 
 
 
