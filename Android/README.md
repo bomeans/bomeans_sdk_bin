@@ -115,6 +115,23 @@ Notes:
 
 Most display panel type of AC remotes is BURGuiDisplayType_Yes.
 
+#Smart Picker
+Most used way to pick up a remote controller from the database containing massive remotes is the so-called smart picker. The user aim the remote controller to the appliance, press a test key to see if the appliance reactives to the key, and repeat this procedure until a proper remote is selected. 
+
+The SDK provides some APIs for helping the Apps to integrate the above steps for TV-type remotes. Note for the AC-type remotes, you need to download the list of all AC remotes of the specified brand and show to the user one by one to test if the correctly remote is selected.
+
+To create a smart picker instance, call ```IRKit.createSmartPicker``` and get the returned instance of BIRTVPicker in the callback function. After that, you can manipulate the picker by the provided functions of the BIRTVPicker interface.
+
+| API | Description | Remark
+| ------------- | --------------------------------------- | -----------------------------------
+| begin	| Start a new picking process | The key ID for testing is returned
+| getNextKey | Get the next key ID for testing | The key ID for testing is returned
+| transmitIR | Transmit the IR data of the current testing key |
+| keyResult	| Pass the user feedback to the picker | returned <li> BIR_PNext(More test is needed)</li><li>BIR_PFind (Test completed)</li><li>BIR_PFail(No matched remote)</li>
+| getPickerResult | Get the matched remotes once the test is completed | Return the matched remote ID(s)
+
+#IR Learning
+
 
 
 
