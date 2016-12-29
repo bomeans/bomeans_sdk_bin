@@ -96,6 +96,7 @@ Once the Remote Controller instance (BIRRemote) is created, you can manipulate t
 | getGUIFeature | Get the display option for AC remote (Note2) | | | V |	
 | getActiveKeys | Get the currently active key(button) of the AC remote | | | V | V
 | getKeyOption | Get the currently active options of the specific key(button) of a AC remote  | | | V | V	
+| setKeyOption | Set the currently active option of the specific key(button) of a AC remote<br>(Since v.20161228) | | | V | V
 | getTimerKeys | Get the timer-related keys(buttons) of the AC remote | | | V |	
 | setOnTime | Set the ON timer of the AC remote  | | | V |
 | setOffTime | Set the OFF timer of the AC remote | | | V |
@@ -132,7 +133,7 @@ To create a smart picker instance, call ```IRKit.createSmartPicker``` and get th
 
 ![Smart Picker Flow](../_docs/Smart-picker-flow.png?raw=true "Smart Picker Flowchart")
 
-#IR Learning
+#IR Learning (Since v.20161107)
 ##Introduction of IR Learning
 Two operation modes are supported:
 <li>Learn and Store: Act as a IR signal recorder/player. The IR signal is learned (recorded) and can be re-transmit (replay). The App or the host CPU is responsible for storing the learned IR data.</li>
