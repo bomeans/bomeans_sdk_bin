@@ -78,8 +78,14 @@ Two types of remote controllers can be created:
 
 | API | Description | Callback | Remark
 |------------------- | ---------------------------------------------------- | ----------- | ------------------------------
-| IRKit.createRemote | Create single remote (with specific remote id), or<br>create simple universal remote (with null as remote id) | BIRRemote | Both TV-type and AC-type remotes are supported.<br>The 'simple' universal remote indicates only a few most used buttons are conatined in the returned universal remote controller.
-| IRKit.createBigCombineRemote | Create complete universal remote | BIRRemote | Only TV-type remotes are supported.<br>The 'complete' universal remote indicates the the remote contains full keys of the underlying remote controllers.
+| IRKit.createRemote | Create a single remote controller (with specific remote id) (Note1), or<br> create a simplified-keys universal remote controller (with null as remote_id parameter) (Note2) | BIRRemote | Both TV-type and AC-type remotes are supported.
+| IRKit.createBigCombineRemote | Create a full-keys universal remote (Note3) | BIRRemote | Only TV-type remotes are supported.
+
+Note:
+
+<li>1. Single remote controller: A remote controller that have a one-to-one key mapping of a specific real-world remote controller. The other kind of remote controller is the Universal Remote Controller (URC) which is a pesudo remote controller containing several most popular remotes of a specific brand in it. When a key button of a URC is pressed, a sequence of IR signals corresponding to each of the underlying remotes will be sent.</li>
+<li>2. Simplified-keys URC: A universal remote which have only a limited key buttons (usually the most common keys) exposed for controlling.</li>
+<li>3. Full-keys URC: A universal remote which have all the available key buttons exposed for controlling.</li>
 
 #Remote Controller Manipulation
 
