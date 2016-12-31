@@ -94,7 +94,7 @@ Once the Remote Controller instance (BIRRemote) is created, you can manipulate t
 | API | Description | TV-type<br>Remote | TV-type<br>Universal Remote | AC-type<br>Remote | AC-type<br>Universal Remote
 | ------------- | ---------------------------------------------------------------| ----- | ----- | ----- | -----
 | getAllKeys | Get all key(button) of the remote | V | V | V | V
-| getModuleName	| Get the appliance model names for this remote | V	| | V |
+| getModuleName	| Get the id of this remote | V	| | V |
 | getBrandName | Get the brand name of this remote | V | V | V | V
 | transmitIR | Send the IR data (Note1) | V | V | V | V
 | beginTransmitIR | Start a IR transmission<br>(Call endTrasmitIR to stop transmission) | V			
