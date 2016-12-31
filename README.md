@@ -7,7 +7,16 @@ SDK binaries can be downloaded here.
 <li>[iOS SDK Download](https://github.com/bomeans/bomeans_sdk_bin/tree/master/iOS)</li>
 
 ##Documentation
-For the documentation, please check http://wiki.bomeans.com
+
+####On Github
+
+* [Android : SDK outlook](https://github.com/bomeans/bomeans_sdk_bin/tree/master/Android)
+* [Android : SDK API documents (wiki pages)](https://github.com/bomeans/bomeans_sdk_bin/wiki)
+* iOS : SDK outlook (in preparing)
+* iOS : SDK API documents (wiki pages) (in preparing)
+
+####On Bomeans Website
+* [Bomeans SDK Wiki (include Chinese version)](http://wiki.bomeans.com)
 
 You can also find English documents of Android SDK [here](https://github.com/bomeans/bomeans_sdk_bin/tree/master/Android).
 
