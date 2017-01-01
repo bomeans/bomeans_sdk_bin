@@ -18,9 +18,6 @@ SDK binaries can be downloaded here.
 ####On Bomeans Website
 * [Bomeans SDK Wiki (include Chinese version)](http://wiki.bomeans.com)
 
-You can also find English documents of Android SDK [here](https://github.com/bomeans/bomeans_sdk_bin/tree/master/Android).
-
-
 ##API Key
 The SDK binaries cannot work alone. You need to apply a API Key from Bomeans. For applying API Key: http://www.bomeans.com/Mainpage/Apply/apikey
 
