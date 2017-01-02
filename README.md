@@ -22,3 +22,6 @@ SDK binaries can be downloaded here.
 The SDK binaries cannot work alone. You need to apply a API Key from Bomeans. For applying API Key: http://www.bomeans.com/Mainpage/Apply/apikey
 
 Or you can contact Bomeans Design for more information.
+
+##One More Thing
+For Android, We have a new API [here](https://github.com/bomeans/bomeans_sdk_irapi/tree/master/irapi/release).
