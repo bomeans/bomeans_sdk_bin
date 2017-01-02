@@ -10,10 +10,10 @@ SDK binaries can be downloaded here.
 
 ####On Github
 
-* [Android : SDK outlook](https://github.com/bomeans/bomeans_sdk_bin/tree/master/Android)
+* [Android : SDK outlook](Android)
 * [Android : SDK API documents (wiki pages)](https://github.com/bomeans/bomeans_sdk_bin/wiki)
-* iOS : SDK outlook (in preparing)
-* iOS : SDK API documents (wiki pages) (in preparing)
+* [iOS : SDK outlook (in preparing)](iOS)
+* [iOS : SDK API documents (wiki pages)](https://github.com/bomeans/bomeans_sdk_bin/wiki)
 
 ####On Bomeans Website
 * [Bomeans SDK Wiki (include Chinese version)](http://wiki.bomeans.com)
