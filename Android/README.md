@@ -19,7 +19,7 @@ If you are using Android Studio:<br>
 <li>Copy the sub-folders containing the .so files to the \src\main\jniLibs folder in your project.</li>
 <li>Copy the .jar files to the \libs folder in your project.</li>
 Note: You also need to have the following settings in your build.gradle(Module:your_app):<br>
-```
+```java
 dependencies {
     ...
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -28,7 +28,7 @@ dependencies {
 ```
 ##Adding App Permissions
 The following permissions need to be added to your AndroidMenifest.xml:
-```
+```java
 android.permission.INTERNET
 android.permission.ACCESS_WIFI_STATE
 ```
@@ -38,7 +38,7 @@ You need to apply a valid API Key for the SDK to run normally.<br>
 Apply the key here: http://www.bomeans.com/Mainpage/Apply/apikey
 
 ##Setting your SDK
-```
+```java
 IRKit.setup(apiKey, applicationContext)
 ```
 where apiKey is the API Key issued by Bomeans Design. applicationContext is the application context of your app.
@@ -46,7 +46,7 @@ where apiKey is the API Key issued by Bomeans Design. applicationContext is the 
 ##Switch your target server if your target users are in China
 If your target users locate in China, you can optionally switch the connected cloud server the one located in China for better performance.<br>
 To switch to China server,
-```
+```java
 IRKit.setUseChineseServer(true)
 ```
 Note: If the above function is not call, a default server located outside China will be used.
@@ -173,39 +173,40 @@ Note: How to handle the communication data in/out to/from the IR Blaster is depe
 
 Here's an example:
 
-```
+```java
 public class MyNetworkIRDevice implements BIRIRBlaster {
     private BIRReceiveDataCallback mReceiveDataCallback = null;
 
-@Override
-public int sendData(byte[] irData) {
-    // send data to IR Blaster
-    sendToNetwrok(irData)
-    return IRKit.BIROK;
-}
-@Override
-public int isConnection() {
-    // check IR Blaster connection status
-    if (deviceIsConnected()) {
+    @Override
+    public int sendData(byte[] irData) {
+        // send data to IR Blaster
+        sendToNetwrok(irData)
         return IRKit.BIROK;
-    } else {
-        return IRKit.BIRNotConnectToNetWork;
     }
-}
 
-@Override
-public void setReceiveDataCallback(BIRReceiveDataCallback birReceiveDataCallback) {
-    // keep this callback.
-    // all the traffic come from the IR Blaster should be passed back to the SDK via this callback.
-    mReceiveDataCallback = birReceiveDataCallback;
-}
-
-public void onNetworkDataArrived(byte[] irLearningData) {
-    // Once the data from IR Blaster is received, pass it back to SDK (all data should pass back to SDK)
-    if (null != mReceiveDataCallback) {
-        mReceiveDataCallback.onDataReceived(irLearningData);
+    @Override
+    public int isConnection() {
+        // check IR Blaster connection status
+        if (deviceIsConnected()) {
+            return IRKit.BIROK;
+        } else {
+            return IRKit.BIRNotConnectToNetWork;
+        }
     }
-}
+
+    @Override
+    public void setReceiveDataCallback(BIRReceiveDataCallback birReceiveDataCallback) {
+        // keep this callback.
+        // all the traffic come from the IR Blaster should be passed back to the SDK via this callback.
+        mReceiveDataCallback = birReceiveDataCallback;
+    }
+
+    public void onNetworkDataArrived(byte[] irLearningData) {
+        // Once the data from IR Blaster is received, pass it back to SDK (all data should pass back to SDK)
+        if (null != mReceiveDataCallback) {
+            mReceiveDataCallback.onDataReceived(irLearningData);
+        }
+    }
 }
 ```
 ##Upper APIs
@@ -213,7 +214,7 @@ The App should first create a BIRReader instance for manipulating the learning f
 
 Here's an example for creating a BIRReader instance:
 
-```
+```java
 // initialize SDK
 IRKit.setup(API_KEY, getApplicationContext());
 
@@ -243,7 +244,7 @@ Once the BIRReader instance is created, use the following BIRReader APIs to do t
 
 Example:
 
-```
+```java
 mIrReader.startLearningAndGetData(
     BIRReader.PREFER_REMOTE_TYPE.Auto, 
     new BIRReader.BIRReaderFormatMatchCallback() {
