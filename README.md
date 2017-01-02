@@ -13,7 +13,7 @@ SDK binaries can be downloaded here.
 * [Android : SDK outlook](Android)
 * [Android : SDK API documents (wiki pages)](https://github.com/bomeans/bomeans_sdk_bin/wiki)
 * [iOS : SDK outlook (in preparing)](iOS)
-* [iOS : SDK API documents (wiki pages)](wiki/BomeansIRKit_initialization)
+* [iOS : SDK API documents (wiki pages)](https://github.com/bomeans/bomeans_sdk_bin/wiki/BomeansIRKit_initialization)
 
 ####On Bomeans Website
 * [Bomeans SDK Wiki (include Chinese version)](http://wiki.bomeans.com)
