@@ -5,6 +5,7 @@ SDK binaries can be downloaded here.
 
 <li>[Android SDK Download](https://github.com/bomeans/bomeans_sdk_bin/tree/master/Android)</li>
 <li>[iOS SDK Download](https://github.com/bomeans/bomeans_sdk_bin/tree/master/iOS)</li>
+<li>[Windows SDK Download (for .net)](https://github.com/bomeans/bomeans_sdk_bin/tree/master/Windows)</li>
 
 ##Documentation
 
