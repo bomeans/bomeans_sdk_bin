@@ -1,4 +1,4 @@
-#Introduction
+# Introduction
 
 This SDK is for building Android universal remote contoller Apps.
 
@@ -8,8 +8,8 @@ Two major packages in this SDK are<br>
 <li>com.bomeans.IRKit: The main package providing data downloading and IR data interpretion.</li>
 <li>com.bomeans.wifi2ir: Optional package which handling wifi conneciton to Bomeans WiFi IR Blaster using specific Bomeans protocol. (Users who handles the data communication on his own can safely ignore this package.)
 
-#How to Use
-##Adding SDK Files
+# How to Use
+## Adding SDK Files
 If you are using Eclipse + ADT:<br>
 <li>Copy the sub-folders containing the .so files to the \libs folder in your project.</li>
 <li>Copy the .jar files to the \libs folder in your project.</li>
@@ -26,24 +26,24 @@ dependencies {
     ...
 }
 ```
-##Adding App Permissions
+## Adding App Permissions
 The following permissions need to be added to your AndroidMenifest.xml:
 ```java
 android.permission.INTERNET
 android.permission.ACCESS_WIFI_STATE
 ```
-#Initial Setup
-##Getting the API Key
+# Initial Setup
+## Getting the API Key
 You need to apply a valid API Key for the SDK to run normally.<br>
 Apply the key here: http://www.bomeans.com/Mainpage/Apply/apikey
 
-##Setting your SDK
+## Setting your SDK
 ```java
 IRKit.setup(apiKey, applicationContext)
 ```
 where apiKey is the API Key issued by Bomeans Design. applicationContext is the application context of your app.
 
-##Switch your target server if your target users are in China
+## Switch your target server if your target users are in China
 If your target users locate in China, you can optionally switch the connected cloud server the one located in China for better performance.<br>
 To switch to China server,
 ```java
@@ -51,7 +51,7 @@ IRKit.setUseChineseServer(true)
 ```
 Note: If the above function is not call, a default server located outside China will be used.
 
-#Getting the Basic Information/Lists
+# Getting the Basic Information/Lists
 The SDK provides the following APIs for accessing the basic information of the remote controllers.<br>
 These APIs are asynchronous, the results will be returned in the callbacks.
 
@@ -69,7 +69,7 @@ Notes
 <li>2: Remote ID is the internal unique id for each remote controller in the database. This ID is not necessary the model name of the remote controller itself or the model name of the appliance.</li>
 <li>3: The keywords for searching the remote controllers are usually the one containing the type, brand, and/or the button name. For example, "Turn on the Panasonic TV" is a valid search string that conatins the type (TV), brand name (Panasonic), and the optional button name (Turn on as power button.)</li>
 
-#Creating the Remote Controller Instance
+# Creating the Remote Controller Instance
 
 Two types of remote controllers can be created:
 
@@ -87,7 +87,7 @@ Note:
 <li>2. Simplified-keys URC: A universal remote which have only a limited key buttons (usually the most common keys) exposed for controlling.</li>
 <li>3. Full-keys URC: A universal remote which have all the available key buttons exposed for controlling.</li>
 
-#Remote Controller Manipulation
+# Remote Controller Manipulation
 
 Once the Remote Controller instance (BIRRemote) is created, you can manipulate the remote by using the following APIs:
 
@@ -121,8 +121,9 @@ Notes:
 | BIRGuiDisplayType_ALWAYS | The panel is always on regardless of the power state (on or off)
 
 Most display panel type of AC remotes is BURGuiDisplayType_Yes.
+</li>
 
-#Smart Picker
+# Smart Picker
 Most used way to pick up a remote controller from the database containing massive remotes is the so-called smart picker. The user aim the remote controller to the appliance, press a test key to see if the appliance reactives to the key, and repeat this procedure until a proper remote is selected. 
 
 The SDK provides some APIs for helping the Apps to integrate the above steps for TV-type remotes. Note for the AC-type remotes, you need to download the list of all AC remotes of the specified brand and show to the user one by one to test if the correctly remote is selected.
@@ -139,8 +140,8 @@ To create a smart picker instance, call ```IRKit.createSmartPicker``` and get th
 
 ![Smart Picker Flow](../_docs/Smart-picker-flow.png?raw=true "Smart Picker Flowchart")
 
-#IR Learning (Since v.20161107)
-##Introduction of IR Learning
+# IR Learning (Since v.20161107)
+## Introduction of IR Learning
 Two operation modes are supported:
 <li>Learn and Store: Act as a IR signal recorder/player. The IR signal is learned (recorded) and can be re-transmit (replay). The App or the host CPU is responsible for storing the learned IR data.</li>
 <li>Learn and Match: The learned IR data is analyzed by the SDK for extracting the characteristics, these characteristics are then sent to the cloud for matching the existing remote controller(s).</li>
@@ -149,24 +150,24 @@ The "Learn and Store" is for traditional IR learning application. For the remote
 
 For the "Learn and Match", it provides an alternative way to picking out the correct remote controller from the database. User can press only several keys of the remote controller and the cloud can find the same or similar remote controller for him.
 
-###Learn and Store
+### Learn and Store
 The learned IR data (for a specific key on the remote) can be passed back to the App in a compressed form. The App or host application can save the data in its own storage with the specific key name or key ID. To replay the IR signal, simply read the data back from storage and send to the SDK for transmission.
 
 ![Fig.1](../_docs/learning_diagrams_1.png)
 
-###Learn and Match
+### Learn and Match
 Learn and Match allow the learned IR data to be analyzed and sent to the cloud for matching the existing remote controllers in database. This is sutable for 
 <li>Providing a easy way to find the exact the same or similar remote controller(s) by only a few key presses on the remote controller.</li>
 <li>Download the similar remote controller to reduce the number of amount of keys to be learned. User need to learn the keys not exist or not matched with their target appliance.</li>
 
 ![Fig.2](../_docs/learning_diagrams_2.png)
 
-##Learning APIs
+## Learning APIs
 The learning APIs are separated into two parts. The upper APIs are for App to issue commands to switch the IR Blaster into learning mode, and receive the learned IR data from the callbacks. The lower APIs are for passing the data comes from the IR blaster back to the SDK for processing. 
 
 ![Fig.3](../_docs/learning_diagrams_3.png)
 
-###Lower APIs
+### Lower APIs
 SDK provides a BIRIRBlaster interface for briding the in/out data between the SDK and the IR Blaster hardware. The App should have a instance which extends the BIRIRBlaster interface, and passing this instance to the SDK via IRKit.setIRHW(). Once this is done, all communication data for the IR Blaster hardware will be passed through the instance the App provided. 
 
 Note: How to handle the communication data in/out to/from the IR Blaster is depending on the product specific communication channel therefore is not covered in this document.
@@ -209,7 +210,7 @@ public class MyNetworkIRDevice implements BIRIRBlaster {
     }
 }
 ```
-##Upper APIs
+## Upper APIs
 The App should first create a BIRReader instance for manipulating the learning functions.
 
 Here's an example for creating a BIRReader instance:
