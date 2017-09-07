@@ -77,7 +77,7 @@ bool getTypeList(
 
 ##### description
 
-*
+* get the supported appliance category (type) list.
 
 ##### include
 
@@ -85,7 +85,13 @@ bool getTypeList(
 
 ##### input
 
-*
+* ```language```: language(location) code such as "cn", "tw", "en", etc.
+* ```getNew```: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* ```userIf```: callback thats will be invoked when download is completed. The ```TypeItem[]``` will be returned if succeeded.
+
+##### output
+
+* ture if succeeded, or false if failed.
 
 
 
@@ -104,7 +110,7 @@ bool getBrandList(
 
 ##### description
 
-*
+* get the supported brand list of the specified type.
 
 ##### include
 
@@ -112,7 +118,17 @@ bool getBrandList(
 
 ##### input
 
-*
+* ```typeId```: type id which can be retrieved from ```webGetTypeList```
+* ```start```: start index of the brand list
+* ```number```: number of brand entries to be returned
+* ```language```: language code such as "cn", "tw", etc.
+* ```brandName```: brand name keyword to filter the returned list. Can be null to get the whole list. 
+* ```getNew```: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* ```userIf```: callback thats will be invoked when download is completed. The ```BrandItem[]``` will be returned if succeeded.
+
+##### output
+* ture if succeeded, or false if failed.
+
 
 ### Web::getTopBrandList
 ```cpp
@@ -126,10 +142,9 @@ bool getTopBrandList(
 	IAPIProgress *userIf)
 ```
 
-
 ##### description
 
-*
+* get the brand list of the specified type, sorted by the popularity ranking.
 
 ##### include
 
@@ -137,7 +152,17 @@ bool getTopBrandList(
 
 ##### input
 
-*
+* `typeId`: type id which can be retrieved from `webGetTypeList`
+* `start`: start index of the brand list
+* `number`: number of brand entries to be returned
+* `language`: language code such as "cn", "tw", etc.
+* `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `userIf`: callback thats will be invoked when download is completed. The `BrandItem[]` will be returned if succeeded.
+
+##### output
+
+* ture if succeeded, or false if failed.
+
 
 ### getRemoteModelList
 ```cpp
@@ -149,10 +174,9 @@ bool getRemoteModelList(
 	IAPIProgress *userIf)
 ```
 
-
 ##### description
 
-*
+* get the remote id list of the specified type and brand
 
 ##### include
 
@@ -160,7 +184,15 @@ bool getRemoteModelList(
 
 ##### input
 
-*
+* `typeId`: type id which can be retrieved from `webGetTypeList`
+* `brandId`: brand id which can be retrieved from `webGetBrandList` or `webGetTopBrandList`
+* `newData`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `userIf`: callback thats will be invoked when download is completed. The `ModelItem[]` will be returned if succeeded.
+
+##### output
+
+* ture if succeeded, or false if failed.
+
 
 ## Create Remote
 
@@ -175,7 +207,7 @@ Remote* createRemote(
 ```
 ##### description
 
-*
+* create a remote controller.
 
 ##### include
 
@@ -183,7 +215,19 @@ Remote* createRemote(
 
 ##### input
 
-*
+* `type`: type id which can be retrieved from webGetTypeList
+* `brand`: brand id which can be retrieved from `webGetBrandList` or `webGetTopBrandList`
+* `model`: model id, or the remote id, which can be retrieved from `webGetModelList`. If null is passing, a universal remote controller will be created. (see note)
+* `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `userIf`: callback thats will be invoked when download is completed. The `BIRRemote` will be returned if succeeded.
+
+##### note
+
+* A universal remote controller is a pseudo remote which is the combination of several popular remotes of a specific brand. To compare with a general single remote controller, several IR signals which corresponding to the underlying remotes are sent back to back when a button of the universal remote is activated.
+
+##### output
+
+* ture if succeeded, or false if failed.
 
 ##### remark
 
@@ -220,41 +264,163 @@ int transmitIR(
 	const std::string &option)
 ```
 
+##### description
+* send the IR data of the specified key
+
+##### input
+* `keyId`: key id of the target key(button) of the remote
+* `option`: key option id of the target key state(option). Set to nil for non-AC type of remote.
+
+##### output
+* `BIROK` if succeeded, or error code if failed
+
+##### remark
+* for AC remote, option id set to nil will set the option to the next available option of the key. For temperature key (`IR_ACKEY_TEMP`), option can be set to "UP" or "DOWN" to automatically move to the next temperature up or down respectively.
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V|V|V|V
+
 ### beginTransmitIR
 ```cpp
 int beginTransmitIR(
 	const std::string keyId)
 ```
 
+##### description
+* start sending IR data continuously (must call `endTransmitIR` to stop the data sending)
+
+##### input
+* `keyId`: key id of the target key(button) of the remote
+ 
+##### output
+* `BBIROK` if succeeded, or error code if failed
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V| | |
+
+
 ### endTransmitIR
 ```cpp
 void endTransmitIR()
 ```
 
+##### description
+* stop sending IR data.
+
+##### input
+* n/a
+ 
+##### output
+* n/a
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V| | |
+
+
 ### getModuleName
 ```cpp
 std::string getModuleName()
 ```
+##### description
+get the remote id. (though a bit confusing, the module name here is actually the remote id which is used for uniquely identifying the remote entry in the database.)
+
+##### input
+* n/a
+ 
+##### output
+* remote id
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V| |V|
+
 
 ### getBrandName
 ```cpp
 std::string getBrandName()
 ```
 
+##### description
+get the brand id for this remote
+
+##### input
+* n/a
+ 
+##### output
+* brand id
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V|V|V|V
+
+
 ### setRepeatCount
 ```cpp
 void setRepeatCount(int count)
 ```
+
+##### description
+set the repeat count for the IR data. The repeat count is the number of repeat frames to be sent for one `transmitIR` call. 
+
+##### input
++ `count`: number of repeat frames
+ 
+##### output
++ n/a
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V| | |
+
 
 ### getRepeatCount
 ```cpp
 int getRepeatCount()
 ```
 
+##### description
+get the repeat count for the IR data for one `transmitIR` call. 
+
+##### input
++ n/a 
+ 
+##### output
++ number of repeat frames
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+|V| | |
+
+
 ### getActiveKeys
 ```cpp
 std::vector<std::string> getActiveKeys()
 ```
+
+##### description
+get currently activated keys of the AC type remote. Activated keys by definition are the keys that are enabled for user to press. Activated keys are not necessary the same number of the returned from `getAllKeys`.
+
+##### input
++ n/a 
+ 
+##### output
++ NSString array containing currently activated keys
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|V
+
 
 ### getKeyOption
 ```cpp
@@ -262,15 +428,80 @@ std::pair<KeyOption, bool>  getKeyOption(
 	const std::string keyID)
 ```
 
+##### description
+get all possible options of the specified key
+
+##### input
++ `keyId`: the target key id
+ 
+##### output
++ 'BIRKeyOption' describing the key options and all other information.
+
+##### remark
+* `BIRKeyOption` has the following public members
+
+| member | type | description
+|---|---|---
+| `currentOption` | int | current selected option
+| `options` | NSMutableArray* | option id list
+| `enable` | BOOL | YES if this is key currently enabled(activated), NO otherwise
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|V
+
+
 ### getGuiFeature
 ```cpp
 std::pair<GUIFeature, bool> getGuiFeature()
 ```
+##### description
+get the GUI features of this remote. These features are for helping the GUI implementation for AC type remote.
+
+##### input
++ n/a
+ 
+##### output
++ 'BIRGUIFeature' describing the GUI features
+
+##### remark
+* `BIRGUIFeature` has the following public members
+
+| member | type | description
+|---|---|---
+| `displayType ` | int | possible value:<br><ul><li>BIRGuiDisplayType_NO(0) - no display panel</li><li>BIRGuiDisplayType_YES(1) - has a display panel which is on while powered on</li><li>BIRGuiDisplayType_ALWAYS(2) - has a always on display panel regardless of the power on or off</li></ul>
+| `RTC ` | BOOL | <ul><li>YES - has RTC support</li><li>NO - no RTC support</li></ul>
+| `timerMode` | int | <ul><li>1 - Only OFF timer is supported</li><li>2 - Support ON and/or OFF timer, can be set only when power is on.</li><li>3 - Support ON and/or OFF timer, can be set regardless of power state.</li><li>4 - Either ON or OFF timer, can be set only when power is on.</li><li>5 - Can set ON timer while powered off; set OFF timer while powered on.</li></ul>
+| `timerCountDown` | BOOL | <ul><li>YES - timer is count down type</li><li>NO - timer is not count down type</li></ul>
+| `timerClock` | BOOL | <ul><li>YES - timer is clock type</li><li>NO - timer is not clock type</li></ul>
+
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|
+
 
 ### getTimerKeys
 ```cpp
 std::vector<std::string>  getTimerKeys()
 ```
+
+##### description
+get timer key(s) of this remote
+
+##### input
++ n/a 
+ 
+##### output
++ timer key id list
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|
+
 
 ### setOffTime
 ```cpp
