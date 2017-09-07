@@ -2,6 +2,8 @@
 
 # Linux SDK Documentation
 
+##### namespace : BOMEANS_LIB_NAME
+
 ## Initialization
 
 ### IRKit::setup
@@ -9,15 +11,15 @@
 	bool useChinaServer, 
 	BIRIRBlaster *myIrBlaster);`
 	
-description
+##### description
 
 * Initialize the SDK.
 
-include
+##### include
 
 * `IRKit.h`
 
-input
+##### input
 
 * `apiKey`:  api key applied from Bomeans Design
 * `useChinaServer`: switch to China Server
@@ -26,98 +28,101 @@ input
 ### IRKit::setUseChineseServer
 'void setUseChineseServer(bool cn)'
 
-descripton
+##### descripton
 
 * Switch between China/International Server.
 
-include
+##### include
 
 * `IRKit.h`
 
-input
+##### input
 
 * `cn`: true to switch to China Server, false to International Server (default) 
 
 ### IRKit::setIRHW 
 `void setIRHW(BIRIRBlaster *irBlaster)`
 
-description
+##### description
 
 * Assign a user-defined class instance which processing all the in/out traffic between the SDK and the underlying IR blaster hardware.
 
-include
+##### include
 
 * `IRKit.h`
 
-input
+##### input
 
 * `irBlaster`: user-defined class instance which inherits from BIRIRBlaster class
 
+## Basic Information
 
 ### Web::getTypeList
-`bool getTypeList(const std::string &language, bool getNew, BomArray<TypeItem>& items, IAPIProgress *userIf)`
+`bool getTypeList(const std::string &language, bool getNew, std::vector<TypeItem>& items, IAPIProgress *userIf)`
 
-description
+##### description
 
 *
 
-include
+##### include
 
 * `Web.h`
 
-input
+##### input
 
 *
 
 
 
 ### Web::getBrandList
-`bool  getBrandList(const std::string &typeId, int start, int number, const std::string &language, const std::string &brandName, bool getNew, BomArray<BrandItem>& items, IAPIProgress *userIf)`
+`bool  getBrandList(const std::string &typeId, int start, int number, const std::string &language, const std::string &brandName, bool getNew, std::vector<BrandItem>& items, IAPIProgress *userIf)`
 
 
-description
+##### description
 
 *
 
-include
+##### include
 
 * `Web.h`
 
-input
+##### input
 
 *
 
 ### Web::getTopBrandList
-`bool getTopBrandList(const std::string &typeId, int start, int number, const std::string &language, bool getNew, BomArray<BrandItem>& items, IAPIProgress *userIf)`
+`bool getTopBrandList(const std::string &typeId, int start, int number, const std::string &language, bool getNew, std::vector<BrandItem>& items, IAPIProgress *userIf)`
 
 
-description
+##### description
 
 *
 
-include
+##### include
 
 * `Web.h`
 
-input
+##### input
 
 *
 
 ### getRemoteModelList
-`bool getRemoteModelList(const std::string &typeId, const std::string &brandId, bool getNew, BomArray<ModelItem>& items, IAPIProgress *userIf)`
+`bool getRemoteModelList(const std::string &typeId, const std::string &brandId, bool getNew, std::vector<ModelItem>& items, IAPIProgress *userIf)`
 
 
-description
+##### description
 
 *
 
-include
+##### include
 
 * `Web.h`
 
-input
+##### input
 
 *
+
+## Create Remote
 
 ### IRKit::createRemote
 `Remote* createRemote(const std::string &type, 
@@ -125,32 +130,251 @@ input
 					 const std::string &model,
 					 bool getNew, Web::IAPIProgress *userIf)`
 
-description
+##### description
 
 *
 
-include
+##### include
 
 * `IRKit.h`
 
-input
+##### input
 
 *
+
+##### remark
+
+* You must manually delete the created Remote instance when not in use to avoid memory leak.
+
+
+## Remote (Class)
+
+##### include
+* `Remote.h`
+
+### getAllKeys
+`std::vector<std::string> getAllKeys()`
+
+### transmitIR
+`int transmitIR(const std::string &keyID, const std::string &option)`
+
+### beginTransmitIR
+`int beginTransmitIR(const std::string keyId)`
+
+### endTransmitIR
+`void endTransmitIR()`
+
+### getModuleName
+`std::string getModuleName()`
+
+### getBrandName
+`std::string getBrandName()`
+
+### setRepeatCount
+`void setRepeatCount(int count)`
+
+### getRepeatCount
+`int getRepeatCount()`
+
+### getActiveKeys
+'std::vector<std::string> getActiveKeys()'
+
+### getKeyOption
+`std::pair<KeyOption, bool>  getKeyOption(const std::string keyID)`
+
+### getGuiFeature
+`std::pair<GUIFeature, bool> getGuiFeature()`
+
+### getTimerKeys
+`std::vector<std::string>  getTimerKeys()`
+
+### setOffTime
+`void setOffTime(int hour, int minute, int sec)`
+
+### setOnTime
+`void setOnTime(int hour, int minute, int sec)`
+
+### getACStoreDatas
+`std::vector<StoreData> getACStoreDatas()`
+
+### restoreACStoreDatas
+`bool restoreACStoreDatas(const std::vector<StoreData> &storeDatas)`
+
+
+## IR Learning
 
 ### IRKit::createIRReader
 `IRReader* createIRReader(bool newData)`
 
-description
+##### description
 
 *
 
-include
+##### include
 
 * `IRKit.h`
 
-input
+##### input
 
 *
+
+##### remark
+
+* You must manually delete the created IRReader instance when not in use to avoid memory leak.
+
+
+## IRReader (Class)
+
+##### include
+
+* `IRReader.h`
+
+### startLearningAndGetData
+`void startLearningAndGetData(PREFER_REMOTE_TYPE preferRemoteType, ReaderFormatMatchCallback *callback)`
+
+##### description
+
+* Start a learning session, and get the result from the callback.
+
+##### input
+
+* `preferRemoteType`: preferred type for the IR matching (see remark below for more information). If you just need to get the IR learning data and store it for later use, you may not be interested in the IR format match results so just simply passing in Auto is good enough.
+* `callback`: `ReaderFormatMatchCallback` callback that returns the learning results.
+
+##### output
+
+* n/a
+
+##### remark
+
+* PREFER_REMOTE_TYPE has the following values:
+
+| value | description
+| Auto	| The best matched format is decided by the parsing core.
+| AC | The best matched format is the AC format if any.
+If no AC format is matched, TV format will be selected.
+| TV | The best matched format is the TV format if any.
+If no TV format is matched, AC format will be selected.
+
+### startLearningAndSearchCloud
+`void startLearningAndSearchCloud(bool isNewSearch, PREFER_REMOTE_TYPE preferRemoteType, ReaderRemoteMatchCallback *callback)`
+
+##### description
+
+* Start the learning process, get the matched format and matched remote controller(s) in the passing callback functions.
+
+##### input
+
+* `isNewSearch`: Set to true if you are starting a new learning. Set to false if you are adding the learning to filter the previous matched result.
+* `preferRemoteType`: AC, TV, or Auto. This affects the decision of the "best match" returned.
+* `callback`: ReaderRemoteMatchCallback callback to receive the matching/searching results.
+
+##### output
+
+* n/a
+
+##### remark
+
+### reset
+`void reset()`
+
+##### description
+
+* Reset the internal learning states if you have previous called `startLearningAndSearchCloud`
+
+##### input
+
+* n/a
+
+##### output
+
+* n/a
+
+##### remark
+* `startLearningAndSearchCloud` supports the so-called accumulated matching for TV-like remotes.<br> 
+when the startLearningAndSearchCloud is continuously invoked, the IR learning data previously sent will be kept in the internal memory for filtering the matching remotes. That is, you can have more accurate match result if several IR learning data belong to the same remote controller is passed in startLearningAndSearchCloud.
+Calling reset will reset the internal memory to start a new accumulated matching.
+
+### stopLearning
+`int stopLearning()`
+
+##### description
+
+* Send the stop learning command to IR Blaster. (Return to normal mode).
+
+##### input
+
+* n/a
+
+##### output
+
+* `BIRError.BIROK` if succeeded, other error code if failed.
+
+###
+`int sendLearningData(const std::vector<uint8_t> &learningData)`
+
+##### description
+
+* Send the learned IR data.
+
+##### input
+
+* `learningData`: The IR data is the raw data bytes returned from the callback of `startLearningAndGetData`.
+
+##### output
+
+* `BIRError.BIROK` if succeeded, other error code if failed.
+
+
+## ReaderFormatMatchCallback (Class)
+
+##### include
+* IRReader.h
+
+### onFormatMatchSucceeded
+`void onFormatMatchSucceeded(const ReaderMatchResult &formatMatchResult)`
+
+### onFormatMatchFailed
+`void onFormatMatchFailed(FormatParsingErrorCode::V errorCode)`
+
+### onLearningDataReceived
+`void onLearningDataReceived( const std::vector<uint8_t> &learningData)`
+
+### onLearningDataFailed
+`void onLearningDataFailed(LearningErrorCode::V errorCode)`
+
+
+
+## ReaderRemoteMatchCallback (Class)
+
+##### include
+* IRReader.h
+
+### onRemoteMatchSucceeded
+`void onRemoteMatchSucceeded(const ArrayList<Web::RemoteUID> &remoteMatchResultList)`
+
+
+### onRemoteMatchFailed
+`void onRemoteMatchFailed(CloudMatchErrorCode::V errorCode)`
+
+### onFormatMatchSucceeded
+`void onFormatMatchSucceeded(const ArrayList<ReaderMatchResult>& formatMatchResultList)`
+
+### onFormatMatchFailed
+`void onFormatMatchFailed(FormatParsingErrorCode::V errorCode)`
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 					 
