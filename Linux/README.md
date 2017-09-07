@@ -199,6 +199,19 @@ Remote* createRemote(
 ```cpp
 std::vector<std::string> getAllKeys()
 ```
+##### description
+* get all supported keys in this remote.
+
+##### input
+* n/a
+
+##### output
+* string array contains all the key ids.
+
+##### avialablity
+| TV-like | TV-Like Universal | AC | AC Universal |
+| :---: | :---: | :---: | :---: |
+| V | V | V | V |
 
 ### transmitIR
 ```cpp
@@ -342,10 +355,11 @@ void startLearningAndGetData(
 
 * PREFER_REMOTE_TYPE has the following values:
 
-| value | description
-| Auto	| The best matched format is decided by the parsing core.
-| AC | The best matched format is the AC format if any. If no AC format is matched, TV format will be selected.
-| TV | The best matched format is the TV format if any. If no TV format is matched, AC format will be selected.
+| value | description |
+| :--- | :--- |
+| Auto	| The best matched format is decided by the parsing core. |
+| AC | The best matched format is the AC format if any. If no AC format is matched, TV format will be selected. |
+| TV | The best matched format is the TV format if any. If no TV format is matched, AC format will be selected. |
 
 ### startLearningAndSearchCloud
 ```cpp
