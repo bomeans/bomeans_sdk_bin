@@ -7,9 +7,12 @@
 ## Initialization
 
 ### IRKit::setup
-`void setup(const std::string &apiKey, 
+```cpp
+void setup(
+	const std::string &apiKey, 
 	bool useChinaServer, 
-	BIRIRBlaster *myIrBlaster);`
+	BIRIRBlaster *myIrBlaster)
+```
 	
 ##### description
 
@@ -26,7 +29,10 @@
 * `myIrBlaster`: user-defined class instance which inherits from BIRIRBlaster class
 
 ### IRKit::setUseChineseServer
-'void setUseChineseServer(bool cn)'
+```cpp
+void setUseChineseServer(
+	bool cn)
+```
 
 ##### descripton
 
@@ -41,7 +47,10 @@
 * `cn`: true to switch to China Server, false to International Server (default) 
 
 ### IRKit::setIRHW 
-`void setIRHW(BIRIRBlaster *irBlaster)`
+```cpp
+void setIRHW(
+	BIRIRBlaster *irBlaster)
+```
 
 ##### description
 
@@ -58,7 +67,13 @@
 ## Basic Information
 
 ### Web::getTypeList
-`bool getTypeList(const std::string &language, bool getNew, std::vector<TypeItem>& items, IAPIProgress *userIf)`
+```cpp
+bool getTypeList(
+	const std::string &language, 
+	bool getNew, 
+	std::vector<TypeItem>& items, 
+	IAPIProgress *userIf)
+```
 
 ##### description
 
@@ -75,8 +90,17 @@
 
 
 ### Web::getBrandList
-`bool  getBrandList(const std::string &typeId, int start, int number, const std::string &language, const std::string &brandName, bool getNew, std::vector<BrandItem>& items, IAPIProgress *userIf)`
-
+```cpp
+bool getBrandList(
+	const std::string &typeId, 
+	int start, 
+	int number, 
+	const std::string &language, 
+	const std::string &brandName, 
+	bool getNew, 
+	std::vector<BrandItem>& items, 
+	IAPIProgress *userIf)
+```
 
 ##### description
 
@@ -91,7 +115,16 @@
 *
 
 ### Web::getTopBrandList
-`bool getTopBrandList(const std::string &typeId, int start, int number, const std::string &language, bool getNew, std::vector<BrandItem>& items, IAPIProgress *userIf)`
+```cpp
+bool getTopBrandList(
+	const std::string &typeId, 
+	int start, 
+	int number, 
+	const std::string &language, 
+	bool getNew, 
+	std::vector<BrandItem>& items, 
+	IAPIProgress *userIf)
+```
 
 
 ##### description
@@ -107,7 +140,14 @@
 *
 
 ### getRemoteModelList
-`bool getRemoteModelList(const std::string &typeId, const std::string &brandId, bool getNew, std::vector<ModelItem>& items, IAPIProgress *userIf)`
+```cpp
+bool getRemoteModelList(
+	const std::string &typeId, 
+	const std::string &brandId, 
+	bool getNew, 
+	std::vector<ModelItem>& items, 
+	IAPIProgress *userIf)
+```
 
 
 ##### description
@@ -125,11 +165,14 @@
 ## Create Remote
 
 ### IRKit::createRemote
-`Remote* createRemote(const std::string &type, 
-					 const std::string &brand, 
-					 const std::string &model,
-					 bool getNew, Web::IAPIProgress *userIf)`
-
+```cpp
+Remote* createRemote(
+	const std::string &type, 
+	const std::string &brand, 
+	const std::string &model,
+	bool getNew, 
+	Web::IAPIProgress *userIf)
+```
 ##### description
 
 *
@@ -153,58 +196,104 @@
 * `Remote.h`
 
 ### getAllKeys
-`std::vector<std::string> getAllKeys()`
+```cpp
+std::vector<std::string> getAllKeys()
+```
 
 ### transmitIR
-`int transmitIR(const std::string &keyID, const std::string &option)`
+```cpp
+int transmitIR(
+	const std::string &keyID, 
+	const std::string &option)
+```
 
 ### beginTransmitIR
-`int beginTransmitIR(const std::string keyId)`
+```cpp
+int beginTransmitIR(
+	const std::string keyId)
+```
 
 ### endTransmitIR
-`void endTransmitIR()`
+```cpp
+void endTransmitIR()
+```
 
 ### getModuleName
-`std::string getModuleName()`
+```cpp
+std::string getModuleName()
+```
 
 ### getBrandName
-`std::string getBrandName()`
+```cpp
+std::string getBrandName()
+```
 
 ### setRepeatCount
-`void setRepeatCount(int count)`
+```cpp
+void setRepeatCount(int count)
+```
 
 ### getRepeatCount
-`int getRepeatCount()`
+```cpp
+int getRepeatCount()
+```
 
 ### getActiveKeys
-'std::vector<std::string> getActiveKeys()'
+```cpp
+std::vector<std::string> getActiveKeys()
+```
 
 ### getKeyOption
-`std::pair<KeyOption, bool>  getKeyOption(const std::string keyID)`
+```cpp
+std::pair<KeyOption, bool>  getKeyOption(
+	const std::string keyID)
+```
 
 ### getGuiFeature
-`std::pair<GUIFeature, bool> getGuiFeature()`
+```cpp
+std::pair<GUIFeature, bool> getGuiFeature()
+```
 
 ### getTimerKeys
-`std::vector<std::string>  getTimerKeys()`
+```cpp
+std::vector<std::string>  getTimerKeys()
+```
 
 ### setOffTime
-`void setOffTime(int hour, int minute, int sec)`
+```cpp
+void setOffTime(
+	int hour, 
+	int minute, 
+	int sec)
+```
 
 ### setOnTime
-`void setOnTime(int hour, int minute, int sec)`
+```cpp
+void setOnTime(
+	int hour, 
+	int minute, 
+	int sec)
+```
 
 ### getACStoreDatas
-`std::vector<StoreData> getACStoreDatas()`
+```cpp
+std::vector<StoreData> getACStoreDatas()
+```
 
 ### restoreACStoreDatas
-`bool restoreACStoreDatas(const std::vector<StoreData> &storeDatas)`
+```cpp
+bool restoreACStoreDatas(
+	const std::vector<StoreData> &storeDatas)
+```
 
 
 ## IR Learning
 
 ### IRKit::createIRReader
-`IRReader* createIRReader(bool newData)`
+```cpp
+IRReader* createIRReader(
+	bool newData)
+```
 
 ##### description
 
@@ -230,7 +319,11 @@
 * `IRReader.h`
 
 ### startLearningAndGetData
-`void startLearningAndGetData(PREFER_REMOTE_TYPE preferRemoteType, ReaderFormatMatchCallback *callback)`
+```cpp
+void startLearningAndGetData(
+	PREFER_REMOTE_TYPE preferRemoteType, 
+	ReaderFormatMatchCallback *callback)
+```
 
 ##### description
 
@@ -251,13 +344,16 @@
 
 | value | description
 | Auto	| The best matched format is decided by the parsing core.
-| AC | The best matched format is the AC format if any.
-If no AC format is matched, TV format will be selected.
-| TV | The best matched format is the TV format if any.
-If no TV format is matched, AC format will be selected.
+| AC | The best matched format is the AC format if any. If no AC format is matched, TV format will be selected.
+| TV | The best matched format is the TV format if any. If no TV format is matched, AC format will be selected.
 
 ### startLearningAndSearchCloud
-`void startLearningAndSearchCloud(bool isNewSearch, PREFER_REMOTE_TYPE preferRemoteType, ReaderRemoteMatchCallback *callback)`
+```cpp
+void startLearningAndSearchCloud(
+	bool isNewSearch, 
+	PREFER_REMOTE_TYPE preferRemoteType, 
+	ReaderRemoteMatchCallback *callback)
+```
 
 ##### description
 
@@ -296,7 +392,9 @@ when the startLearningAndSearchCloud is continuously invoked, the IR learning da
 Calling reset will reset the internal memory to start a new accumulated matching.
 
 ### stopLearning
-`int stopLearning()`
+```cpp
+int stopLearning()
+```
 
 ##### description
 
@@ -311,7 +409,10 @@ Calling reset will reset the internal memory to start a new accumulated matching
 * `BIRError.BIROK` if succeeded, other error code if failed.
 
 ###
-`int sendLearningData(const std::vector<uint8_t> &learningData)`
+```cpp
+int sendLearningData(
+	const std::vector<uint8_t> &learningData)
+```
 
 ##### description
 
@@ -332,16 +433,28 @@ Calling reset will reset the internal memory to start a new accumulated matching
 * IRReader.h
 
 ### onFormatMatchSucceeded
-`void onFormatMatchSucceeded(const ReaderMatchResult &formatMatchResult)`
+```cpp
+void onFormatMatchSucceeded(
+	const ReaderMatchResult &formatMatchResult)
+```
 
 ### onFormatMatchFailed
-`void onFormatMatchFailed(FormatParsingErrorCode::V errorCode)`
+```cpp
+void onFormatMatchFailed(
+	FormatParsingErrorCode::V errorCode)
+```
 
 ### onLearningDataReceived
-`void onLearningDataReceived( const std::vector<uint8_t> &learningData)`
+```cpp
+void onLearningDataReceived( 
+	const std::vector<uint8_t> &learningData)
+```
 
 ### onLearningDataFailed
-`void onLearningDataFailed(LearningErrorCode::V errorCode)`
+```cpp
+void onLearningDataFailed(
+	LearningErrorCode::V errorCode)
+```
 
 
 
@@ -351,17 +464,29 @@ Calling reset will reset the internal memory to start a new accumulated matching
 * IRReader.h
 
 ### onRemoteMatchSucceeded
-`void onRemoteMatchSucceeded(const ArrayList<Web::RemoteUID> &remoteMatchResultList)`
+```cpp
+void onRemoteMatchSucceeded(
+	const ArrayList<Web::RemoteUID> &remoteMatchResultList)
+```
 
 
 ### onRemoteMatchFailed
-`void onRemoteMatchFailed(CloudMatchErrorCode::V errorCode)`
+```cpp
+void onRemoteMatchFailed(
+	CloudMatchErrorCode::V errorCode)
+```
 
 ### onFormatMatchSucceeded
-`void onFormatMatchSucceeded(const ArrayList<ReaderMatchResult>& formatMatchResultList)`
+```cpp
+void onFormatMatchSucceeded(
+	const ArrayList<ReaderMatchResult>& formatMatchResultList)
+```
 
 ### onFormatMatchFailed
-`void onFormatMatchFailed(FormatParsingErrorCode::V errorCode)`
+```cpp
+void onFormatMatchFailed(
+	FormatParsingErrorCode::V errorCode)
+```
 
 
 
