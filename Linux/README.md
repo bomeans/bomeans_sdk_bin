@@ -28,6 +28,13 @@ void setup(
 * `useChinaServer`: switch to China Server
 * `myIrBlaster`: user-defined class instance which inherits from BIRIRBlaster class
 
+##### output
+* n/a
+
+##### remark
+* Must be called first for the SDK to work properly
+
+
 ### IRKit::setUseChineseServer
 ```cpp
 void setUseChineseServer(
@@ -46,6 +53,13 @@ void setUseChineseServer(
 
 * `cn`: true to switch to China Server, false to International Server (default) 
 
+##### output
+* n/a
+
+##### remark
+* If not called, the default server is the international one.
+
+
 ### IRKit::setIRHW 
 ```cpp
 void setIRHW(
@@ -63,6 +77,13 @@ void setIRHW(
 ##### input
 
 * `irBlaster`: user-defined class instance which inherits from BIRIRBlaster class
+
+##### output
+* n/a
+
+##### remark
+* If not called, the default IR data will be routed to the WiFi interface in the form of Bomeans-defined package and protocol. All users with customized hardware should provide this instance to the SDK.
+
 
 ## Basic Information
 
@@ -93,6 +114,17 @@ bool getTypeList(
 
 * ture if succeeded, or false if failed.
 
+##### remark
+* The returned Boolean can be used to cancel the downloading.
+* `TypeItem` has the following public members:
+
+| member | type | description
+| --- | --- | ---
+| `typeId` | string | unique id for identifying this type
+| `locationName` | string | localized name of this type
+| `name` | string | English name of this type
+
+##### example
 
 
 ### Web::getBrandList
@@ -129,6 +161,18 @@ bool getBrandList(
 ##### output
 * ture if succeeded, or false if failed.
 
+##### remark
+* The returned Boolean can be used to cancel the dowloading.
+* `BrandItem` has the following public members:
+
+| member | type | description
+| --- | --- | ---
+| `brandId` | string | unique id for identifying this brand
+| `locationName` | string | localized name of this brand
+| `name` | string | English name of this brand
+
+##### example
+
 
 ### Web::getTopBrandList
 ```cpp
@@ -163,6 +207,11 @@ bool getTopBrandList(
 
 * ture if succeeded, or false if failed.
 
+##### remark
+* The returned Boolean can be used to cancel the dowloading.
+
+##### example
+
 
 ### getRemoteModelList
 ```cpp
@@ -193,6 +242,20 @@ bool getRemoteModelList(
 
 * ture if succeeded, or false if failed.
 
+##### remark
+* The returned AsyncTask can be used to cancel the dowloading.
+* `ModelItem` has the following members:
+
+| member | type | description
+| --- | --- | ---
+| `model` | string | The id for each individual remote entry in the database. This id is not necessary the model name of the remote controller itself nor the target appliamce model name.
+| `machineModel` | string | target appliance model names, separated by comma (,) <br><br>(Note: the list may be appear to be empty or incompleted. This field is for only reference and not recommended for using as the main function for picking the remote controller.)
+| `country` | string | country (location) code such as "cn", "tw", "en", etc.
+| `releaseTime` | string | date this remote been added to the database.
+
+
+##### example
+
 
 ## Create Remote
 
@@ -205,6 +268,7 @@ Remote* createRemote(
 	bool getNew, 
 	Web::IAPIProgress *userIf)
 ```
+
 ##### description
 
 * create a remote controller.
@@ -232,6 +296,13 @@ Remote* createRemote(
 ##### remark
 
 * You must manually delete the created Remote instance when not in use to avoid memory leak.
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| V | V (Simplified-keys) | V | V (Simplified-keys)
+
+##### example
 
 
 ## Remote (Class)
@@ -272,7 +343,7 @@ int transmitIR(
 * `option`: key option id of the target key state(option). Set to nil for non-AC type of remote.
 
 ##### output
-* `BIROK` if succeeded, or error code if failed
+* 0(`ConstValue.BIROK`) if succeeded, or error code if failed
 
 ##### remark
 * for AC remote, option id set to nil will set the option to the next available option of the key. For temperature key (`IR_ACKEY_TEMP`), option can be set to "UP" or "DOWN" to automatically move to the next temperature up or down respectively.
@@ -295,7 +366,7 @@ int beginTransmitIR(
 * `keyId`: key id of the target key(button) of the remote
  
 ##### output
-* `BBIROK` if succeeded, or error code if failed
+* 0(`ConstValue.BIROK`) if succeeded, or error code if failed
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -348,7 +419,7 @@ std::string getBrandName()
 ```
 
 ##### description
-get the brand id for this remote
+* get the brand id for this remote
 
 ##### input
 * n/a
@@ -368,13 +439,13 @@ void setRepeatCount(int count)
 ```
 
 ##### description
-set the repeat count for the IR data. The repeat count is the number of repeat frames to be sent for one `transmitIR` call. 
+* set the repeat count for the IR data. The repeat count is the number of repeat frames to be sent for one `transmitIR` call. 
 
 ##### input
-+ `count`: number of repeat frames
+* `count`: number of repeat frames
  
 ##### output
-+ n/a
+* n/a
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -388,13 +459,13 @@ int getRepeatCount()
 ```
 
 ##### description
-get the repeat count for the IR data for one `transmitIR` call. 
+* get the repeat count for the IR data for one `transmitIR` call. 
 
 ##### input
-+ n/a 
+* n/a 
  
 ##### output
-+ number of repeat frames
+* number of repeat frames
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -408,13 +479,13 @@ std::vector<std::string> getActiveKeys()
 ```
 
 ##### description
-get currently activated keys of the AC type remote. Activated keys by definition are the keys that are enabled for user to press. Activated keys are not necessary the same number of the returned from `getAllKeys`.
+* get currently activated keys of the AC type remote. Activated keys by definition are the keys that are enabled for user to press. Activated keys are not necessary the same number of the returned from `getAllKeys`.
 
 ##### input
-+ n/a 
+* n/a 
  
 ##### output
-+ NSString array containing currently activated keys
+* NSString array containing currently activated keys
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -429,13 +500,13 @@ std::pair<KeyOption, bool>  getKeyOption(
 ```
 
 ##### description
-get all possible options of the specified key
+* get all possible options of the specified key
 
 ##### input
-+ `keyId`: the target key id
+* `keyId`: the target key id
  
 ##### output
-+ 'BIRKeyOption' describing the key options and all other information.
+* 'BIRKeyOption' describing the key options and all other information.
 
 ##### remark
 * `BIRKeyOption` has the following public members
@@ -457,13 +528,13 @@ get all possible options of the specified key
 std::pair<GUIFeature, bool> getGuiFeature()
 ```
 ##### description
-get the GUI features of this remote. These features are for helping the GUI implementation for AC type remote.
+* get the GUI features of this remote. These features are for helping the GUI implementation for AC type remote.
 
 ##### input
-+ n/a
+* n/a
  
 ##### output
-+ 'BIRGUIFeature' describing the GUI features
+* 'BIRGUIFeature' describing the GUI features
 
 ##### remark
 * `BIRGUIFeature` has the following public members
@@ -489,13 +560,13 @@ std::vector<std::string>  getTimerKeys()
 ```
 
 ##### description
-get timer key(s) of this remote
+* get timer key(s) of this remote
 
 ##### input
-+ n/a 
+* n/a 
  
 ##### output
-+ timer key id list
+* timer key id list
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -511,6 +582,23 @@ void setOffTime(
 	int sec)
 ```
 
+##### description
+* set the off timer
+
+##### input
+* `hour`: hour of the off timer
+* `minute`: minute of the off timer
+* `sec`: second of the off timer
+ 
+##### output
+* n/a
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|
+
+
 ### setOnTime
 ```cpp
 void setOnTime(
@@ -519,16 +607,62 @@ void setOnTime(
 	int sec)
 ```
 
+##### description
+* set the on timer
+
+##### input
+* `hour`: hour of the on timer
+* `minute`: minute of the on timer
+* `sec`: second of the on timer
+ 
+##### output
+* n/a
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|
+
+
 ### getACStoreDatas
 ```cpp
 std::vector<StoreData> getACStoreDatas()
 ```
+
+##### description
+* get the internal states of all the keys of the remote. The returned `ACStoreDataItem` array can be saved in storage, and call `restoreACStoreDatas` to restore the states of the remote. 
+
+##### input
+* n/a
+ 
+##### output
+* `ACStoreDataItem[]` containing all key states of the remote.
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|V
+
 
 ### restoreACStoreDatas
 ```cpp
 bool restoreACStoreDatas(
 	const std::vector<StoreData> &storeDatas)
 ```
+
+##### description
+* restore the remote states by passing the `ACStoreDataItem[]` got from `getACStoreDatas`. 
+
+##### input
+* `storeDatas`: previously saved `ACStoreDataItem[]` data.
+ 
+##### output
+* true if succeeded, false otherwise.
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|V
 
 
 ## IR Learning
