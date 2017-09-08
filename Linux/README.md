@@ -675,7 +675,7 @@ IRReader* createIRReader(
 
 ##### description
 
-*
+* create an IR reader instance which implements '[BIRReader](BIRReader)' interface.
 
 ##### include
 
@@ -683,11 +683,16 @@ IRReader* createIRReader(
 
 ##### input
 
-*
+* 'newData': true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+
+##### output
+* n/a
 
 ##### remark
 
 * You must manually delete the created IRReader instance when not in use to avoid memory leak.
+
+##### example
 
 
 ## IRReader (Class)
@@ -726,6 +731,8 @@ void startLearningAndGetData(
 | AC | The best matched format is the AC format if any. If no AC format is matched, TV format will be selected. |
 | TV | The best matched format is the TV format if any. If no TV format is matched, AC format will be selected. |
 
+##### example
+
 ### startLearningAndSearchCloud
 ```cpp
 void startLearningAndSearchCloud(
@@ -748,7 +755,7 @@ void startLearningAndSearchCloud(
 
 * n/a
 
-##### remark
+##### example
 
 ### reset
 `void reset()`
@@ -770,6 +777,7 @@ void startLearningAndSearchCloud(
 when the startLearningAndSearchCloud is continuously invoked, the IR learning data previously sent will be kept in the internal memory for filtering the matching remotes. That is, you can have more accurate match result if several IR learning data belong to the same remote controller is passed in startLearningAndSearchCloud.
 Calling reset will reset the internal memory to start a new accumulated matching.
 
+
 ### stopLearning
 ```cpp
 int stopLearning()
@@ -787,7 +795,8 @@ int stopLearning()
 
 * `BIRError.BIROK` if succeeded, other error code if failed.
 
-###
+
+### sendLearningData
 ```cpp
 int sendLearningData(
 	const std::vector<uint8_t> &learningData)
@@ -817,11 +826,44 @@ void onFormatMatchSucceeded(
 	const ReaderMatchResult &formatMatchResult)
 ```
 
+##### description
+* Invoked if the learned IR data matches one of the known IR format.
+
+##### input
+* `formatMatchResult`: matched IR format(s)
+
+##### output
+* n/a
+
+##### remark
+* This function is mostly for debugging purpose.
+* `ReaderMatchResult` has the following public members:
+
+| member | type | description
+| --- | --- | ---
+| formatId | String | IR format id
+| customCode | long | custom code
+| keyCode | long | key code
+
+
 ### onFormatMatchFailed
 ```cpp
 void onFormatMatchFailed(
 	FormatParsingErrorCode::V errorCode)
 ```
+
+##### description
+* Invoked if there is no match for the learned result.
+
+##### input
+* `errorCode`: predefined error code that describes the reason why the match failed.
+
+##### output
+* n/a
+
+##### remark
+* This function is mostly for debugging purpose.
+
 
 ### onLearningDataReceived
 ```cpp
@@ -829,12 +871,30 @@ void onLearningDataReceived(
 	const std::vector<uint8_t> &learningData)
 ```
 
+##### description
+* Invoked when the learning data is received.
+
+##### input
+* `learningData`: the learned IR signal data. This data can be stored and re-transmit by calling `sendLearningData`
+
+##### output
+* n/a
+
+
 ### onLearningDataFailed
 ```cpp
 void onLearningDataFailed(
 	LearningErrorCode::V errorCode)
 ```
 
+##### description
+* Invoked when the learning data is not received or is incorrect.
+
+##### input
+* `errorCode`: predefined error code that describes the reason why the match failed.
+
+##### output
+* n/a
 
 
 ## ReaderRemoteMatchCallback (Class)
@@ -848,6 +908,26 @@ void onRemoteMatchSucceeded(
 	const ArrayList<Web::RemoteUID> &remoteMatchResultList)
 ```
 
+##### description
+* The matched remote controller(s) of the loaded learning data.
+
+##### input
+* `remoteMatchResultList`: `RemoteMatchResult` list which is the list of matched remotes.
+
+##### output
+* n/a
+
+##### remark
+* the matched remote controller list is the result of accumulated matching data since the last call of reset().
+* `RemoteMatchResult` has the following public members:
+
+| member | type | description
+| --- | --- | ---
+| typeID | String | type id of the remote
+| brandID | String | brand id of the remote
+| modelID | String | remote id of the remote
+
+
 
 ### onRemoteMatchFailed
 ```cpp
@@ -855,17 +935,60 @@ void onRemoteMatchFailed(
 	CloudMatchErrorCode::V errorCode)
 ```
 
+##### description
+* If failed to find the matched remote in the cloud database.
+
+##### input
+* `errorCode`: predefined error code that describes the reason why the match failed.
+
+##### output
+* n/a
+
+
 ### onFormatMatchSucceeded
 ```cpp
 void onFormatMatchSucceeded(
 	const ArrayList<ReaderMatchResult>& formatMatchResultList)
 ```
 
+##### description
+* Invoked if the learned IR data matches one of the known IR format.
+
+##### input
+* `formatMatchResultList`: list of the matched IR formats.
+
+##### output
+* n/a
+
+##### remark
+* the matched remote controller list is the result of accumulated matching data since the last call of reset().
+* `RemoteMatchResult` has the following public members:
+
+| member | type | description
+| --- | --- | ---
+| formatId | String | IR format id
+| customCode | long | custom code
+| keyCode | long | key code
+
+
 ### onFormatMatchFailed
 ```cpp
 void onFormatMatchFailed(
 	FormatParsingErrorCode::V errorCode)
 ```
+
+##### description
+* Invoked if there is no match for the learned result.
+
+##### input
+* `errorCode`: predefined error code that describes the reason why the match failed.
+
+##### output
+* n/a
+
+##### remark
+* This function is mostly for debugging purpose.
+
 
 
 
