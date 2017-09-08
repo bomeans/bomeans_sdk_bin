@@ -208,7 +208,7 @@ bool getTopBrandList(
 * true if succeeded, or false if failed.
 
 ##### remark
-* The returned Boolean can be used to cancel the dowloading.
+* See `getBrandList` for the `BrandItem` information.
 
 ##### example
 
