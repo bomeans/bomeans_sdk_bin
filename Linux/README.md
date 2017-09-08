@@ -112,7 +112,7 @@ bool getTypeList(
 
 ##### output
 
-* ture if succeeded, or false if failed.
+* true if succeeded, or false if failed.
 
 ##### remark
 * The returned Boolean can be used to cancel the downloading.
@@ -159,7 +159,7 @@ bool getBrandList(
 * ```userIf```: callback thats will be invoked when download is completed. The ```BrandItem[]``` will be returned if succeeded.
 
 ##### output
-* ture if succeeded, or false if failed.
+* true if succeeded, or false if failed.
 
 ##### remark
 * The returned Boolean can be used to cancel the dowloading.
@@ -205,7 +205,7 @@ bool getTopBrandList(
 
 ##### output
 
-* ture if succeeded, or false if failed.
+* true if succeeded, or false if failed.
 
 ##### remark
 * The returned Boolean can be used to cancel the dowloading.
@@ -240,7 +240,7 @@ bool getRemoteModelList(
 
 ##### output
 
-* ture if succeeded, or false if failed.
+* true if succeeded, or false if failed.
 
 ##### remark
 * The returned AsyncTask can be used to cancel the dowloading.
@@ -291,7 +291,7 @@ Remote* createRemote(
 
 ##### output
 
-* ture if succeeded, or false if failed.
+* true if succeeded, or false if failed.
 
 ##### remark
 
