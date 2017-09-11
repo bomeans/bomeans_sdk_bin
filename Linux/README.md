@@ -987,7 +987,7 @@ IRReader* createIRReader(
 
 ##### description
 
-* create an IR reader instance which implements [IRReader](irreader (class)) interface.
+* create an IR reader instance which implements [IRReader](IRReader) interface.
 
 ##### include
 
