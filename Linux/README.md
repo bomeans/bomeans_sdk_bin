@@ -1086,8 +1086,8 @@ void startLearningAndSearchCloud(
 
 ##### remark
 * `startLearningAndSearchCloud` supports the so-called accumulated matching for TV-like remotes.<br> 
-when the startLearningAndSearchCloud is continuously invoked, the IR learning data previously sent will be kept in the internal memory for filtering the matching remotes. That is, you can have more accurate match result if several IR learning data belong to the same remote controller is passed in startLearningAndSearchCloud.
-Calling reset will reset the internal memory to start a new accumulated matching.
+when the `startLearningAndSearchCloud` is continuously invoked, the IR learning data previously sent will be kept in the internal memory for filtering the matching remotes. That is, you can have more accurate match result if several IR learning data belong to the same remote controller is passed in `startLearningAndSearchCloud`.
+Calling `reset` will reset the internal memory to start a new accumulated matching.
 
 
 ### stopLearning
