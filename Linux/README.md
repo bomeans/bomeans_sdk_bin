@@ -115,14 +115,13 @@ bool getTypeList(
 * true if succeeded, or false if failed.
 
 ##### remark
-* The returned Boolean can be used to cancel the downloading.
 * `TypeItem` has the following public members:
 
 | member | type | description
 | --- | --- | ---
-| `typeId` | string | unique id for identifying this type
-| `locationName` | string | localized name of this type
-| `name` | string | English name of this type
+| `Id` | std::string | unique id for identifying this type
+| `LocalizedName` | std::string | localized name of this type
+| `EnglisgName` | std::string | English name of this type
 
 ##### example
 
@@ -167,9 +166,9 @@ bool getBrandList(
 
 | member | type | description
 | --- | --- | ---
-| `brandId` | string | unique id for identifying this brand
-| `locationName` | string | localized name of this brand
-| `name` | string | English name of this brand
+| `Id` | std::string | unique id for identifying this brand
+| `LocalizednName` | std::string | localized name of this brand
+| `EnglishName` | std::string | English name of this brand
 
 ##### example
 
@@ -243,15 +242,14 @@ bool getRemoteModelList(
 * true if succeeded, or false if failed.
 
 ##### remark
-* The returned AsyncTask can be used to cancel the dowloading.
 * `ModelItem` has the following members:
 
 | member | type | description
 | --- | --- | ---
-| `model` | string | The id for each individual remote entry in the database. This id is not necessary the model name of the remote controller itself nor the target appliamce model name.
-| `machineModel` | string | target appliance model names, separated by comma (,) <br><br>(Note: the list may be appear to be empty or incompleted. This field is for only reference and not recommended for using as the main function for picking the remote controller.)
-| `country` | string | country (location) code such as "cn", "tw", "en", etc.
-| `releaseTime` | string | date this remote been added to the database.
+| `Id` | std::string | The id for each individual remote entry in the database. This id is not necessary the model name of the remote controller itself nor the target appliamce model name.
+| `MachineModel` | std::string | target appliance model names, separated by comma (,) <br><br>(Note: the list may be appear to be empty or incompleted. This field is for only reference and not recommended for using as the main function for picking the remote controller.)
+| `Country` | std::string | country (location) code such as "cn", "tw", "en", etc.
+| `ReleaseTime` | std::string | date this remote been added to the database.
 
 
 ##### example
@@ -300,7 +298,9 @@ Remote* createRemote(
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
 |:---:|:---:|:---:|:---:
-| V | V (Simplified-keys) | V | V (Simplified-keys)
+| V | V | V | V (Simplified-keys*)
+
+*Simplified-keys means the created universal remote contains only a few most common keys. For AC remote controller, these keys are Power / Mode / Temperature.
 
 ##### example
 
@@ -541,7 +541,7 @@ std::pair<GUIFeature, bool> getGuiFeature()
 
 | member | type | description
 |---|---|---
-| `displayType ` | int | possible value:<br><ul><li>BIRGuiDisplayType_NO(0) - no display panel</li><li>BIRGuiDisplayType_YES(1) - has a display panel which is on while powered on</li><li>BIRGuiDisplayType_ALWAYS(2) - has a always on display panel regardless of the power on or off</li></ul>
+| `displayType ` | int | possible value:<br><ul><li>GUIFeature::TYPE_NO - no display panel</li><li>GUIFeature::TYPE_YES - has a display panel which is on while powered on</li><li>GUIFeature::TYPE_ALWAYS - has a always on display panel regardless of the power on or off</li></ul>
 | `RTC ` | BOOL | <ul><li>YES - has RTC support</li><li>NO - no RTC support</li></ul>
 | `timerMode` | int | <ul><li>1 - Only OFF timer is supported</li><li>2 - Support ON and/or OFF timer, can be set only when power is on.</li><li>3 - Support ON and/or OFF timer, can be set regardless of power state.</li><li>4 - Either ON or OFF timer, can be set only when power is on.</li><li>5 - Can set ON timer while powered off; set OFF timer while powered on.</li></ul>
 | `timerCountDown` | BOOL | <ul><li>YES - timer is count down type</li><li>NO - timer is not count down type</li></ul>
