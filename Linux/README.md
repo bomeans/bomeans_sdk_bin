@@ -21,6 +21,7 @@
 #### Remote (Class)
 * [`getAllKeys`](#getallkeys)
 * [`transmitIR`](#transmitir)
+* [`setKeyOption`](#setKeyOption)
 * [`beginTransmitIR`](#begintransmitir)
 * [`endTransmitIR`](#endtransmitir)
 * [`getModuleName`](#getmodulename)
