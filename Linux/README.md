@@ -646,7 +646,7 @@ Set the remote internal state for AC type remote
 + `optionId`: key option id of the target key state(option)
 
 ##### output
-+ 0(`ConstValue.BIROK`) if succeeded, or error code if failed
++ 0(`BIRError::BIRNoError` / `BIRError::BIROK`) if succeeded, or error code if failed
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
