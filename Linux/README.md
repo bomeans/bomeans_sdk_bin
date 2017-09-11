@@ -6,7 +6,11 @@
 #### initialization
 * [IRKit::setupp](#irkitsetup)
 * [IRKit::setUseChineseServer](#irkitsetusechineseserver)
-* [IRKit::setIRHW](irkitsetirhw)
+* [IRKit::setIRHW](#irkitsetirhw)
+#### BIRIRBlaster (Class)
+* [sendData](#senddata)
+* [setReceiveDataCallback](#setreceivedatacallback)
+* [isConnection](#isconnection)
 #### Basic Information
 * [Web::getTypeList](#webgettypelist)
 * [Web::getBrandList](#webgetbrandlist)
@@ -133,6 +137,66 @@ void setIRHW(
 ##### remark
 * If not called, the default IR data will be routed to the WiFi interface in the form of Bomeans-defined package and protocol. All users with customized hardware should provide this instance to the SDK.
 
+## BIRIRBlaster (Class)
+
+This interface acts as for bridging the data sending to or coming from the IR Blaster hardware.
+
+For the users that have their own hardware implementations, a class derived from `BIRIRBlaster` should be provided to the SDK.
+
+The main functions of this interface are:
+
+* Receiving IR data or commands sent from the SDK core engine that need to be pass through to the IR Blaster hardware interface.
+* Passing the received data from the IR Blaster hardware to the SDK core engine.
+Once the class instance is created, you must call [`IRKit::setup`](#irkitsetup) or [`IRKit::setIRHW`](#irkitsetuphw) to assign it to the SDK.
+
+### sendData
+```cpp
+int sendData(
+	const std::vector<uint8_t>& irUartData)
+```
+
+#### description
+* invoked whenever the SDK has data to be transmit to the IR Blaster hardware (the MCU). It is the implementor's responsibility to relay these data bytes to the UART port of the IR Blaster.
+
+#### input
+* `irUartData`: data to be sent to the IR Blaster hardware.
+
+#### output
+* `BIRError.BIROK` if succeeded, or the error code if failed.
+
+###
+```cpp
+void setReceiveDataCallback(
+	BIRReceiveDataCallback* pCallback)
+```
+#### description
+* This is used for sending back data come from the IR Blaster to the SDK. It's the implementor's responsibility to keep this passing callback, and call `BIRReceiveDataCallback::onDataReceived(const std::vector<uint8_t> &receivedDataBytes)` to pass the incoming data from IR Blaster to the SDK.
+
+#### input
+
+* callback: the callback passed from the SDK for the user to send back the data come from the IR Blaster hardware.
+
+#### output
+* n/a
+
+#### 
+```cpp
+int isConnection()
+```
+
+#### description
+* to report the IR Blaster hardware connection status to the SDK.
+
+#### input
+* n/a
+
+#### output
+* `BIRError.BIROK` if the connection is established, or the error code if failed.
+
+##### Sample Implementation
+```cpp
+
+```
 
 ## Basic Information
 
