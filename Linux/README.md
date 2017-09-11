@@ -164,7 +164,7 @@ int sendData(
 #### output
 * `BIRError.BIROK` if succeeded, or the error code if failed.
 
-###
+### setReceiveDataCallback
 ```cpp
 void setReceiveDataCallback(
 	BIRReceiveDataCallback* pCallback)
@@ -179,7 +179,7 @@ void setReceiveDataCallback(
 #### output
 * n/a
 
-#### 
+#### isConnection
 ```cpp
 int isConnection()
 ```
@@ -308,7 +308,7 @@ bool getTopBrandList(
 
 ##### input
 
-* `typeId`: type id which can be retrieved from `webGetTypeList`
+* `typeId`: type id which can be retrieved from `Web::getTypeList`
 * `start`: start index of the brand list
 * `number`: number of brand entries to be returned
 * `language`: language code such as "cn", "tw", etc.
