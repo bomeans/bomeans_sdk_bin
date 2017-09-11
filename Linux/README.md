@@ -633,14 +633,16 @@ int transmitIR(
 
 ## setKeyOption
 ```cpp
+int setKeyOption(
+	)
 ```
 
 ##### description
 Set the remote internal state for AC type remote
 
 ##### input
-+ `keyId`: key id of the target key(button) of the remote
-+ `optionId`: key option id of the target key state(option)
++ `keyID`: key id of the target key(button) of the remote
++ `option`: key option id of the target key state(option)
 
 ##### output
 + 0(`ConstValue.BIROK`) if succeeded, or error code if failed
