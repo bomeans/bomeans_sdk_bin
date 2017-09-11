@@ -38,6 +38,7 @@
 * [`restoreACStoreDatas`](#restoreacstoredatas)
 #### IR Learning
 * [`IRKit::createIRReader`](#irkitcreateirreader)
+#### IRReader (Class)
 * [`startLearningAndGetData`](#irkitcreateirreader)
 * [`startLearningAndSearchCloud`](#startlearningandsearchcloud)
 * [`reset`](#reset)
