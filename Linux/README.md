@@ -427,7 +427,7 @@ bool getBrandList(
 
 ##### input
 
-* ```typeId```: type id which can be retrieved from ```webGetTypeList```
+* ```typeId```: type id which can be retrieved from ```getTypeList```
 * ```start```: start index of the brand list
 * ```number```: number of brand entries to be returned
 * ```language```: language code such as "cn", "tw", etc.
@@ -473,7 +473,7 @@ bool getTopBrandList(
 
 ##### input
 
-* `typeId`: type id which can be retrieved from `Web::getTypeList`
+* `typeId`: type id which can be retrieved from `getTypeList`
 * `start`: start index of the brand list
 * `number`: number of brand entries to be returned
 * `language`: language code such as "cn", "tw", etc.
@@ -510,9 +510,9 @@ bool getRemoteModelList(
 
 ##### input
 
-* `typeId`: type id which can be retrieved from `webGetTypeList`
-* `brandId`: brand id which can be retrieved from `webGetBrandList` or `webGetTopBrandList`
-* `newData`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `typeId`: type id which can be retrieved from `getTypeList`
+* `brandId`: brand id which can be retrieved from `getBrandList` or `getTopBrandList`
+* `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
 * `userIf`: callback thats will be invoked when download is completed. The `ModelItem[]` will be returned if succeeded.
 
 ##### output
@@ -555,11 +555,11 @@ Remote* createRemote(
 
 ##### input
 
-* `type`: type id which can be retrieved from webGetTypeList
-* `brand`: brand id which can be retrieved from `webGetBrandList` or `webGetTopBrandList`
-* `model`: model id, or the remote id, which can be retrieved from `webGetModelList`. If null is passing, a universal remote controller will be created. (see note)
+* `type`: type id which can be retrieved from `getTypeList`
+* `brand`: brand id which can be retrieved from `getBrandList` or `getTopBrandList`
+* `model`: model id, or the remote id, which can be retrieved from `getModelList`. If null is passing, a universal remote controller will be created. (see note)
 * `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
-* `userIf`: callback thats will be invoked when download is completed. The `BIRRemote` will be returned if succeeded.
+* `userIf`: callback thats will be invoked when download is completed. The `Remote` will be returned if succeeded.
 
 ##### note
 
