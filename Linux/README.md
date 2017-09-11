@@ -2,6 +2,53 @@
 * Linux IR SDK is still in alpha phase for tesing.
 * SmartPicker is not included in the Linux SDK.
 
+# Contents
+### initialization
+* [IRKit::setupp](Linux#irkitsetup)
+* [IRKit::setUseChineseServer](Linux#setusechineseserver)
+* [IRKit::setIRHW](Linux#setirhw)
+### Basic Information
+* [Web::getTypeList](Linux#gettypelist)
+* [Web::getBrandList](Linux#getbrandlist)
+* [Web::getTopBrandList](Linux#gettopbrandlist)
+* [Web::getRemoteModelList](Linux#getremotemodellist)
+### Create Remote
+* [IRKit::createRemote](Linux#createremote)
+### Remote (Class)
+* [getAllKeys](Linux#getallkeys)
+* [transmitIR](Linux#transmitir)
+* [beginTransmitIR](Linux#begintransmitir)
+* [endTransmitIR](Linux#endtransmitir)
+* [getModuleName](Linux#getmodulename)
+* [getBrandName](Linux#getbrandname)
+* [setRepeatCount](Linux#setrepeatcount)
+* [getRepeatCount](Linux#getrepeatcount)
+* [getActiveKeys](Linux#getactivekeys)
+* [getKeyOption](Linux#getkeyoption)
+* [getGuiFeature](Linux#getguifeature)
+* [getTimerKeys](Linux#gettimerkeys)
+* [setOffTime](Linux#setofftime)
+* [setOnTime](Linux#setontime)
+* [getACStoreDatas](Linux#getacstoredatas)
+* [restoreACStoreDatas](Linux#restoreacstoredatas)
+### IR Learning
+* [startLearningAndGetData](Linux#irkitcreateirreader)
+* [startLearningAndSearchCloud)(Linux#startlearningandsearchcloud)
+* [reset](Linux#reset)
+* [stopLearning](Linux#stoplearning)
+* [sendLearningData](Linux#sendlearningdata)
+### ReaderFormatMatchCallback (Class)
+* [onFormatMatchSucceeded](Linux#onformatmatchsucceeded)
+* [onFormatMatchFailed](#onformatmatchfailed)
+* [onLearningDataReceived](#onlearningdatareceived)
+* [onLearningDataFailed](#onlearningdatafailed)
+### ReaderRemoteMatchCallback (Class)
+* [onRemoteMatchSucceeded](#onremotematchsucceeded)
+* [onRemoteMatchFailed](#onremotematchfailed)
+* [onFormatMatchSucceeded](#onformatmatchsucceeded)
+* [onFormatMatchFailed](#onformatmatchfailed)
+
+
 # Linux SDK Documentation
 
 ##### namespace : BOMEANS_LIB_NAME
@@ -214,7 +261,7 @@ bool getTopBrandList(
 ##### example
 
 
-### getRemoteModelList
+### Web::getRemoteModelList
 ```cpp
 bool getRemoteModelList(
 	const std::string &typeId, 
