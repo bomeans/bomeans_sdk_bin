@@ -119,9 +119,9 @@ bool getTypeList(
 
 | member | type | description
 | --- | --- | ---
-| `Id` | std::string | unique id for identifying this type
-| `LocalizedName` | std::string | localized name of this type
-| `EnglisgName` | std::string | English name of this type
+| `Id` | `std::string` | unique id for identifying this type
+| `LocalizedName` | `std::string` | localized name of this type
+| `EnglisgName` | `std::string` | English name of this type
 
 ##### example
 
@@ -166,9 +166,9 @@ bool getBrandList(
 
 | member | type | description
 | --- | --- | ---
-| `Id` | std::string | unique id for identifying this brand
-| `LocalizednName` | std::string | localized name of this brand
-| `EnglishName` | std::string | English name of this brand
+| `Id` | `std::string` | unique id for identifying this brand
+| `LocalizednName` | `std::string` | localized name of this brand
+| `EnglishName` | `std::string` | English name of this brand
 
 ##### example
 
@@ -246,10 +246,10 @@ bool getRemoteModelList(
 
 | member | type | description
 | --- | --- | ---
-| `Id` | std::string | The id for each individual remote entry in the database. This id is not necessary the model name of the remote controller itself nor the target appliamce model name.
-| `MachineModel` | std::string | target appliance model names, separated by comma (,) <br><br>(Note: the list may be appear to be empty or incompleted. This field is for only reference and not recommended for using as the main function for picking the remote controller.)
-| `Country` | std::string | country (location) code such as "cn", "tw", "en", etc.
-| `ReleaseTime` | std::string | date this remote been added to the database.
+| `Id` | `std::string` | The id for each individual remote entry in the database. This id is not necessary the model name of the remote controller itself nor the target appliamce model name.
+| `MachineModel` | `std::string` | target appliance model names, separated by comma (,) <br><br>(Note: the list may be appear to be empty or incompleted. This field is for only reference and not recommended for using as the main function for picking the remote controller.)
+| `Country` | `std::string` | country (location) code such as "cn", "tw", "en", etc.
+| `ReleaseTime` | `std::string` | date this remote been added to the database.
 
 
 ##### example
@@ -296,11 +296,11 @@ Remote* createRemote(
 * You must manually delete the created Remote instance when not in use to avoid memory leak.
 
 ##### availability
-| <sub>TV-like</sub> | <sub>TV-like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
-|:---:|:---:|:---:|:---:
-| V | V | V | V (Simplified-keys*)
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:|
+| V | V | V | V (Simplified-keys*) |
 
-*Simplified-keys means the created universal remote contains only a few most common keys. For AC remote controller, these keys are Power / Mode / Temperature.
+<sub>*Simplified-keys means the created universal remote contains only a few most common keys. For AC remote controller, these keys are Power / Mode / Temperature.</sub>
 
 ##### example
 
@@ -324,7 +324,7 @@ std::vector<std::string> getAllKeys()
 * string array contains all the key ids.
 
 ##### avialablity
-| TV-like | TV-Like Universal | AC | AC Universal |
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
 | :---: | :---: | :---: | :---: |
 | V | V | V | V |
 
@@ -343,10 +343,10 @@ int transmitIR(
 * `option`: key option id of the target key state(option). Set to nil for non-AC type of remote.
 
 ##### output
-* 0(`ConstValue.BIROK`) if succeeded, or error code if failed
+* 0(`BIRError::BIRNoError` / `BIRError::BIROK`) if succeeded, or error code if failed. The actual error code retruned depends on the user implementation of `BIRIRBlaster`.
 
 ##### remark
-* for AC remote, option id set to nil will set the option to the next available option of the key. For temperature key (`IR_ACKEY_TEMP`), option can be set to "UP" or "DOWN" to automatically move to the next temperature up or down respectively.
+* for AC remote, option id set to empty(`""`) will set the option to the next available option of the key. For temperature key (`IR_ACKEY_TEMP`), option can be set to "UP" or "DOWN" to automatically move to the next temperature up or down respectively.
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -366,7 +366,7 @@ int beginTransmitIR(
 * `keyId`: key id of the target key(button) of the remote
  
 ##### output
-* 0(`ConstValue.BIROK`) if succeeded, or error code if failed
+* 0(`BIRError::BIRNoError` / `BIRError::BIROK`) if succeeded, or error code if failed
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -485,7 +485,7 @@ std::vector<std::string> getActiveKeys()
 * n/a 
  
 ##### output
-* NSString array containing currently activated keys
+* `std::vector<std::string>` containing currently activated keys
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -506,16 +506,16 @@ std::pair<KeyOption, bool>  getKeyOption(
 * `keyId`: the target key id
  
 ##### output
-* 'BIRKeyOption' describing the key options and all other information.
+* 'std::pair<KeyOption, bool>'. The returned `bool` value indicating if the returned `KeyOption` is valid. If the returned `bool` valus is false, most likely you are giving the wrong keyID, or you are asking the key options for TV-like remote controllers which do not have key options.
 
 ##### remark
-* `BIRKeyOption` has the following public members
+* `KeyOption` has the following public members
 
 | member | type | description
 |---|---|---
 | `currentOption` | int | current selected option
-| `options` | NSMutableArray* | option id list
-| `enable` | BOOL | YES if this is key currently enabled(activated), NO otherwise
+| `options` | `std::vector<std::string>` | option id list
+| `enable` | `bool` | `true` if this is key currently enabled(activated), `false` otherwise
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -534,18 +534,18 @@ std::pair<GUIFeature, bool> getGuiFeature()
 * n/a
  
 ##### output
-* 'BIRGUIFeature' describing the GUI features
+* 'std::pair<GUIFeature, bool>' describing the GUI features. The returned `bool` value indicating if the returned `GUIFeature` value is valid.
 
 ##### remark
-* `BIRGUIFeature` has the following public members
+* `GUIFeature` has the following public members
 
 | member | type | description
 |---|---|---
-| `displayType ` | int | possible value:<br><ul><li>GUIFeature::TYPE_NO - no display panel</li><li>GUIFeature::TYPE_YES - has a display panel which is on while powered on</li><li>GUIFeature::TYPE_ALWAYS - has a always on display panel regardless of the power on or off</li></ul>
-| `RTC ` | BOOL | <ul><li>YES - has RTC support</li><li>NO - no RTC support</li></ul>
+| `DisplayType ` | `int(enum)` | possible value:<br><ul><li>`GUIFeature::TYPE_NO` - no display panel</li><li>`GUIFeature::TYPE_YES` - has a display panel which is on while powered on</li><li>`GUIFeature::TYPE_ALWAYS` - has a always on display panel regardless of the power on or off</li></ul>
+| `RTC ` | `bool` | <ul><li>`true` - has RTC support</li><li>`false` - no RTC support</li></ul>
 | `timerMode` | int | <ul><li>1 - Only OFF timer is supported</li><li>2 - Support ON and/or OFF timer, can be set only when power is on.</li><li>3 - Support ON and/or OFF timer, can be set regardless of power state.</li><li>4 - Either ON or OFF timer, can be set only when power is on.</li><li>5 - Can set ON timer while powered off; set OFF timer while powered on.</li></ul>
-| `timerCountDown` | BOOL | <ul><li>YES - timer is count down type</li><li>NO - timer is not count down type</li></ul>
-| `timerClock` | BOOL | <ul><li>YES - timer is clock type</li><li>NO - timer is not clock type</li></ul>
+| `timerCountDown` | `bool` | <ul><li>`true` - timer is count down type</li><li>`false` - timer is not count down type</li></ul>
+| `timerClock` | `bool` | <ul><li>`true` - timer is clock type</li><li>`false` - timer is not clock type</li></ul>
 
 
 ##### availability
@@ -630,13 +630,22 @@ std::vector<StoreData> getACStoreDatas()
 ```
 
 ##### description
-* get the internal states of all the keys of the remote. The returned `ACStoreDataItem` array can be saved in storage, and call `restoreACStoreDatas` to restore the states of the remote. 
+* get the internal states of all the keys of the remote. The returned `StoreData` list can be saved in storage, and call `restoreACStoreDatas` to restore the states of the remote. 
 
 ##### input
 * n/a
  
 ##### output
-* `ACStoreDataItem[]` containing all key states of the remote.
+* `std::vector<StoreData>` containing all key states of the remote.
+
+##### remark
+* `StoreData` has the following public members
+| member | type | description
+|---|---|---
+| `mode` | `int` | The mode this data relates to
+| `state` | `std::string` | the state id of this data
+| `value` | `int` | the value of this data
+*<sub>You do not need to parse the data content. Just save the returned `std::vector<StoreData>` for later use if you are planning to retore the remote controller's state in later time.</sub>
 
 ##### availability
 | <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
@@ -654,7 +663,7 @@ bool restoreACStoreDatas(
 * restore the remote states by passing the `ACStoreDataItem[]` got from `getACStoreDatas`. 
 
 ##### input
-* `storeDatas`: previously saved `ACStoreDataItem[]` data.
+* `storeDatas`: previously saved `std::vector<StoreData>` data.
  
 ##### output
 * true if succeeded, false otherwise.
@@ -727,9 +736,9 @@ void startLearningAndGetData(
 
 | value | description |
 | :--- | :--- |
-| Auto	| The best matched format is decided by the parsing core. |
-| AC | The best matched format is the AC format if any. If no AC format is matched, TV format will be selected. |
-| TV | The best matched format is the TV format if any. If no TV format is matched, AC format will be selected. |
+| `Auto` | The best matched format is decided by the parsing core. |
+| `AC` | The best matched format is the AC format if any. If no AC format is matched, TV format will be selected. |
+| `TV` | The best matched format is the TV format if any. If no TV format is matched, AC format will be selected. |
 
 ##### example
 
@@ -748,7 +757,7 @@ void startLearningAndSearchCloud(
 ##### input
 
 * `isNewSearch`: Set to true if you are starting a new learning. Set to false if you are adding the learning to filter the previous matched result.
-* `preferRemoteType`: AC, TV, or Auto. This affects the decision of the "best match" returned.
+* `preferRemoteType`: `AC`, `TV`, or `Auto`. This affects the decision of the "best match" returned.
 * `callback`: ReaderRemoteMatchCallback callback to receive the matching/searching results.
 
 ##### output
@@ -841,9 +850,9 @@ void onFormatMatchSucceeded(
 
 | member | type | description
 | --- | --- | ---
-| formatId | String | IR format id
-| customCode | long | custom code
-| keyCode | long | key code
+| `formatId` | `std::tring` | IR format id
+| `customCode` | `long` | custom code
+| `keyCode` | `long` | key code
 
 
 ### onFormatMatchFailed
@@ -912,20 +921,20 @@ void onRemoteMatchSucceeded(
 * The matched remote controller(s) of the loaded learning data.
 
 ##### input
-* `remoteMatchResultList`: `RemoteMatchResult` list which is the list of matched remotes.
+* `remoteMatchResultList`: `ArrayList<Web::RemoteUID>` which is the list of matched remotes.
 
 ##### output
 * n/a
 
 ##### remark
 * the matched remote controller list is the result of accumulated matching data since the last call of reset().
-* `RemoteMatchResult` has the following public members:
+* `RemoteUID` has the following public members:
 
 | member | type | description
 | --- | --- | ---
-| typeID | String | type id of the remote
-| brandID | String | brand id of the remote
-| modelID | String | remote id of the remote
+| `TypeID` | `std::string` | type id of the remote
+| `BrandID` | `std::string` | brand id of the remote
+| `ModelID` | `std::string` | remote id of the remote
 
 
 
@@ -962,13 +971,13 @@ void onFormatMatchSucceeded(
 
 ##### remark
 * the matched remote controller list is the result of accumulated matching data since the last call of reset().
-* `RemoteMatchResult` has the following public members:
+* `ReaderMatchResult` has the following public members:
 
 | member | type | description
 | --- | --- | ---
-| formatId | String | IR format id
-| customCode | long | custom code
-| keyCode | long | key code
+| `formatId` | `std::string` | IR format id
+| `customCode` | `long` | custom code
+| `keyCode` | `long` | key code
 
 
 ### onFormatMatchFailed
