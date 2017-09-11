@@ -39,7 +39,7 @@
 #### IR Learning
 * [`IRKit::createIRReader`](#irkitcreateirreader)
 #### IRReader (Class)
-* [`startLearningAndGetData`](#irkitcreateirreader)
+* [`startLearningAndGetData`](#startlearningandgetdata)
 * [`startLearningAndSearchCloud`](#startlearningandsearchcloud)
 * [`reset`](#reset)
 * [`stopLearning`](#stoplearning)
