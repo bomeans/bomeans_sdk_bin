@@ -4,53 +4,53 @@
 
 ## Contents
 #### initialization
-* [IRKit::setupp](#irkitsetup)
-* [IRKit::setUseChineseServer](#irkitsetusechineseserver)
-* [IRKit::setIRHW](#irkitsetirhw)
+* [`IRKit::setup`](#irkitsetup)
+* [`IRKit::setUseChineseServer`](#irkitsetusechineseserver)
+* [`IRKit::setIRHW`](#irkitsetirhw)
 #### BIRIRBlaster (Class)
-* [sendData](#senddata)
-* [setReceiveDataCallback](#setreceivedatacallback)
-* [isConnection](#isconnection)
+* [`sendData`](#senddata)
+* [`setReceiveDataCallback`](#setreceivedatacallback)
+* [`isConnection`](#isconnection)
 #### Basic Information
-* [Web::getTypeList](#webgettypelist)
-* [Web::getBrandList](#webgetbrandlist)
-* [Web::getTopBrandList](#webgettopbrandlist)
-* [Web::getRemoteModelList](#webgetremotemodellist)
+* [`Web::getTypeList`](#webgettypelist)
+* [`Web::getBrandList`](#webgetbrandlist)
+* [`Web::getTopBrandList`](#webgettopbrandlist)
+* [`Web::getRemoteModelList`](#webgetremotemodellist)
 #### Create Remote
 * [IRKit::createRemote](#irkitcreateremote)
 #### Remote (Class)
-* [getAllKeys](#getallkeys)
-* [transmitIR](#transmitir)
-* [beginTransmitIR](#begintransmitir)
-* [endTransmitIR](#endtransmitir)
-* [getModuleName](#getmodulename)
-* [getBrandName](#getbrandname)
-* [setRepeatCount](#setrepeatcount)
-* [getRepeatCount](#getrepeatcount)
-* [getActiveKeys](#getactivekeys)
-* [getKeyOption](#getkeyoption)
-* [getGuiFeature](#getguifeature)
-* [getTimerKeys](#gettimerkeys)
-* [setOffTime](#setofftime)
-* [setOnTime](#setontime)
-* [getACStoreDatas](#getacstoredatas)
-* [restoreACStoreDatas](#restoreacstoredatas)
+* [`getAllKeys`](#getallkeys)
+* [`transmitIR`](#transmitir)
+* [`beginTransmitIR`](#begintransmitir)
+* [`endTransmitIR`](#endtransmitir)
+* [`getModuleName`](#getmodulename)
+* [`getBrandName`](#getbrandname)
+* [`setRepeatCount`](#setrepeatcount)
+* [`getRepeatCount`](#getrepeatcount)
+* [`getActiveKeys`](#getactivekeys)
+* [`getKeyOption`](#getkeyoption)
+* [`getGuiFeature`](#getguifeature)
+* [`getTimerKeys`](#gettimerkeys)
+* [`setOffTime`](#setofftime)
+* [`setOnTime`](#setontime)
+* [`getACStoreDatas`](#getacstoredatas)
+* [`restoreACStoreDatas`](#restoreacstoredatas)
 #### IR Learning
-* [startLearningAndGetData](#irkitcreateirreader)
-* [startLearningAndSearchCloud](#startlearningandsearchcloud)
-* [reset](#reset)
-* [stopLearning](#stoplearning)
-* [sendLearningData](#sendlearningdata)
+* [`startLearningAndGetData`](#irkitcreateirreader)
+* [`startLearningAndSearchCloud`](#startlearningandsearchcloud)
+* [`reset`](#reset)
+* [`stopLearning`](#stoplearning)
+* [`sendLearningData`](#sendlearningdata)
 #### ReaderFormatMatchCallback (Class)
-* [onFormatMatchSucceeded](#onformatmatchsucceeded)
-* [onFormatMatchFailed](#onformatmatchfailed)
-* [onLearningDataReceived](#onlearningdatareceived)
-* [onLearningDataFailed](#onlearningdatafailed)
+* [`onFormatMatchSucceeded`](#onformatmatchsucceeded)
+* [`onFormatMatchFailed`](#onformatmatchfailed)
+* [`onLearningDataReceived`](#onlearningdatareceived)
+* [`onLearningDataFailed`](#onlearningdatafailed)
 #### ReaderRemoteMatchCallback (Class)
-* [onRemoteMatchSucceeded](#onremotematchsucceeded)
-* [onRemoteMatchFailed](#onremotematchfailed)
-* [onFormatMatchSucceeded](#onformatmatchsucceeded)
-* [onFormatMatchFailed](#onformatmatchfailed)
+* [`onRemoteMatchSucceeded`](#onremotematchsucceeded)
+* [`onRemoteMatchFailed`](#onremotematchfailed)
+* [`onFormatMatchSucceeded`](#onformatmatchsucceeded)
+* [`onFormatMatchFailed`](#onformatmatchfailed)
 
 
 # Linux SDK Documentation
@@ -195,7 +195,171 @@ int isConnection()
 
 ##### Sample Implementation
 ```cpp
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <BomeansIRSDK.h>
+#include <deque>
 
+std::string APIKEY="my-api-key";
+BOMEANS_LIB_NAME::BIRReceiveDataCallback* mpMyCallback;
+class MYIRBlaster : public BOMEANS_LIB_NAME::BIRIRBlaster
+{ 
+public:
+	MYIRBlaster() { }
+	~MYIRBlaster() { }
+
+	// When there are data to be sent to the underlying hardware (Bomeans MCU), SDK will
+	// call this function with the data as the parameter.
+	virtual int sendData(const BomArray<uint8_t>& irUartData)
+	{
+		const uint8_t* pIrUartData = &irUartData[0];
+		int irUartDataLen = irUartData.size();
+
+		// those data bytes should be forwarded to the hardware via user-defined protocol
+		printf(">>>Sent %d bytes: ", irUartDataLen);
+		for (int i = 0; i < irUartDataLen; i++)
+		{
+			printf("%02X,", pIrUartData[i]);
+		}
+		printf("\n");
+		return  BIRError::BIRNoError;
+	}
+
+	// return true if the underlying hw is connected, or false otherwise.
+	virtual int isConnection()
+	{
+		return true;	// assume the hardware is always connected.
+	}
+
+	// This is where the SDK pass the callback function for the underyling hw to send back 
+	// data to the SDK.
+	// Keep the pasisng callback function, and whenere there are data to be sent back to SDK, 
+	// call the onDataReceived() of the passing callback.
+	virtual void setReceiveDataCallback(BOMEANS_LIB_NAME::BIRReceiveDataCallback* pCallback)
+	{
+		mpMyCallback = pCallback;
+	}
+
+	// test code, simulating the received data from Bomeans MCU(e.g. IR Learning data), 
+	// and pass these data back to the SDK for further handling
+	void sendDummy()
+	{
+		if (NULL != mpMyCallback)
+		{
+			BomArray<uint8_t> v = {
+				0xff, 0x61, 0x00, 0x54, 0x00, 0x92, 0x09, 0x86, 
+				0x2c, 0x06, 0x08, 0x20, 0xc0, 0x00, 0x90, 0x03, 
+				0xd4, 0x08, 0x0c, 0x03, 0x00, 0x0b, 0x1c, 0x05, 
+				0xa0, 0x05, 0x48, 0x07, 0xcc, 0x35, 0x18, 0x04, 
+				0x5d, 0xa7, 0x6b, 0x99, 0xcc, 0x07, 0x00, 0x10, 
+				0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 
+				0xa0, 0xb0, 0x48, 0x00, 0x10, 0x32, 0x44, 0x65, 
+				0x07, 0x26, 0x82, 0x25, 0x92, 0x10, 0x32, 0x44, 
+				0x65, 0x07, 0x62, 0x82, 0x25, 0x92, 0x10, 0x32, 
+				0x44, 0x65, 0x07, 0x62, 0x82, 0x25, 0xa2, 0x10, 
+				0x32, 0x44, 0x65, 0x07, 0xb3, 0x82, 0x25, 0x92, 
+				0xe6, 0xf0
+			};
+			mpMyCallback->onDataReceived(v);
+		}
+	}
+};
+
+int main()
+{
+	USING_BOMEANS
+
+	// The SDK required curl library, for accessing the web APIs
+	curl_global_init(CURL_GLOBAL_ALL);
+	
+	// setup API Key
+	IRKit::setup(APIKEY, false, nullptr);
+
+	// setup the underlying hardware
+	IRKit::setIRHW(&getMyIRBlaster());
+	
+	// get types
+	BomArray<Web::TypeItem> typeItems;
+	bool r = Web::getTypeList("tw", false, typeItems, nullptr);
+	printf("\nTypes:\n");
+	for (Web::TypeItem typeItem : typeItems)
+	{
+		printf("%s (%s, %s)\n", 
+			typeItem.Id.c_str(), 
+			typeItem.LocalizedName.c_str(), 
+			typeItem.EnglishName.c_str());
+	}	
+
+	// get brands	
+	BomArray<Web::BrandItem> brandItems;
+	Web::getTopBrandList(typeItems[0].Id, 0, 10, "tw", false, brandItems, nullptr);
+	printf("\nBrands:\n");
+	for (Web::BrandItem brandItem : brandItems)
+	{
+		printf("%s (%s, %s)\n", 
+			brandItem.Id.c_str(), 
+			brandItem.LocalizedName.c_str(), 
+			brandItem.EnglishName.c_str());
+	}
+
+	// get models
+	BomArray<Web::ModelItem> modelItems;
+	Web::getRemoteModelList(typeItems[0].Id, brandItems[1].Id, false, modelItems, nullptr);
+	printf("\nModels (Remote IDs):\n");
+	for (Web::ModelItem modelItem : modelItems)
+	{
+		printf("%s (%s)\n", modelItem.Id.c_str(), modelItem.MachineModel.c_str());
+	}
+
+	// create remote - AC
+	brandItems.clear();
+	Web::getTopBrandList("2", 0, 10, "tw", false, brandItems, nullptr);
+	Web::getRemoteModelList(
+		"2", brandItems[1].Id, 
+		false, 
+		modelItems, 
+		nullptr);
+	auto remote = IRKit::createRemote(
+		"2", 
+		brandItems[1].Id, 
+		modelItems[0].Id, 
+		false, 
+		nullptr);
+	printf("Create Remote: type: %s, brand: %s, model: %s\n", 
+		"2", brandItems[1].Id.c_str(), modelItems[0].Id.c_str());
+
+	printf("Supported Keys:\n");
+	auto keys = remote->getAllKeys();
+	for (auto key : keys)
+	{
+		printf("%s\n", key.c_str());
+	}
+
+	// send IR
+	for (auto key : keys)
+	{
+		if (strcmp(key.c_str(), "IR_ACKEY_POWER") == 0)
+		{
+			printf("Send POWER Key\n");
+			remote->transmitIR("IR_ACKEY_POWER", "IR_ACOPT_POWER_ON");
+		}
+	}
+
+	for (auto key : keys)
+	{
+		if (strcmp(key.c_str(), "IR_ACKEY_MODE") == 0)
+		{
+			printf("Send MODE Key\n");
+			remote->transmitIR("IR_ACKEY_MODE", "");
+		}
+	}
+
+	// need manually delete the created remote
+	delete remote;
+	
+	curl_global_cleanup();
+}
 ```
 
 ## Basic Information
