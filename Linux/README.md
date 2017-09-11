@@ -16,12 +16,13 @@
 * [`Web::getBrandList`](#webgetbrandlist)
 * [`Web::getTopBrandList`](#webgettopbrandlist)
 * [`Web::getRemoteModelList`](#webgetremotemodellist)
+* [`Web::getKeyName`](#webgetkeyname)
 #### Create Remote
-* [IRKit::createRemote](#irkitcreateremote)
+* [`IRKit::createRemote`](#irkitcreateremote)
 #### Remote (Class)
 * [`getAllKeys`](#getallkeys)
 * [`transmitIR`](#transmitir)
-* [`setKeyOption`](#setkeyoption)
+* [`setKeyOption`](#setkeyoption) 
 * [`beginTransmitIR`](#begintransmitir)
 * [`endTransmitIR`](#endtransmitir)
 * [`getModuleName`](#getmodulename)
@@ -37,9 +38,7 @@
 * [`getACStoreDatas`](#getacstoredatas)
 * [`restoreACStoreDatas`](#restoreacstoredatas)
 #### IR Learning
-* [`IRKit::createIRReader`](#irkitcreateirreader)
-#### IRReader (Class)
-* [`startLearningAndGetData`](#startlearningandgetdata)
+* [`startLearningAndGetData`](#irkitcreateirreader)
 * [`startLearningAndSearchCloud`](#startlearningandsearchcloud)
 * [`reset`](#reset)
 * [`stopLearning`](#stoplearning)
@@ -386,9 +385,10 @@ bool getTypeList(
 
 ##### input
 
-* ```language```: language(location) code such as "cn", "tw", "en", etc.
-* ```getNew```: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
-* ```userIf```: callback thats will be invoked when download is completed. The ```TypeItem[]``` will be returned if succeeded.
+* `language`: language(location) code such as "cn", "tw", "en", etc.
+* `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `items`: the retrieved `TypeItem` list.
+* `userIf`: for user interaction, can be set to `nullptr`.
 
 ##### output
 
@@ -429,19 +429,19 @@ bool getBrandList(
 
 ##### input
 
-* ```typeId```: type id which can be retrieved from ```getTypeList```
-* ```start```: start index of the brand list
-* ```number```: number of brand entries to be returned
-* ```language```: language code such as "cn", "tw", etc.
-* ```brandName```: brand name keyword to filter the returned list. Can be null to get the whole list. 
-* ```getNew```: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
-* ```userIf```: callback thats will be invoked when download is completed. The ```BrandItem[]``` will be returned if succeeded.
+* `typeId`: type id which can be retrieved from ```getTypeList```
+* `start`: start index of the brand list
+* `number`: number of brand entries to be returned
+* `language`: language code such as "cn", "tw", etc.
+* `brandName`: brand name keyword to filter the returned list. Can be null to get the whole list. 
+* `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `items`: the retrieved `BrandItem` list.
+* `userIf`: for user interaction, can be set to `nullptr`.
 
 ##### output
 * true if succeeded, or false if failed.
 
 ##### remark
-* The returned Boolean can be used to cancel the dowloading.
 * `BrandItem` has the following public members:
 
 | member | type | description
@@ -480,7 +480,8 @@ bool getTopBrandList(
 * `number`: number of brand entries to be returned
 * `language`: language code such as "cn", "tw", etc.
 * `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
-* `userIf`: callback thats will be invoked when download is completed. The `BrandItem[]` will be returned if succeeded.
+* `items`: the retrieved `BrandItem` list.
+* `userIf`: for user interaction, can be set to `nullptr`.
 
 ##### output
 
@@ -488,9 +489,6 @@ bool getTopBrandList(
 
 ##### remark
 * See `getBrandList` for the `BrandItem` information.
-
-##### example
-
 
 ### Web::getRemoteModelList
 ```cpp
@@ -515,7 +513,8 @@ bool getRemoteModelList(
 * `typeId`: type id which can be retrieved from `getTypeList`
 * `brandId`: brand id which can be retrieved from `getBrandList` or `getTopBrandList`
 * `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
-* `userIf`: callback thats will be invoked when download is completed. The `ModelItem[]` will be returned if succeeded.
+* `items`: the reteieved `Web::ModelItem` list.
+* `userIf`: for user interaction, can be set to `nullptr`.
 
 ##### output
 
@@ -532,7 +531,39 @@ bool getRemoteModelList(
 | `ReleaseTime` | `std::string` | date this remote been added to the database.
 
 
-##### example
+### Web::getKeyName
+```cpp
+bool getKeyName(
+	const std::string &typeId, 
+	const std::string &language, 
+	bool getNew, 
+	BomArray<KeyName> &items, 
+	IAPIProgress *userIf);
+```
+
+##### description
+* get the key(button) list of the specified type
+
+##### include
+* `Web.h`
+
+##### input
+* `typeId`: type id which can be retrieved from webGetTypeList
+* `language`: language code such as "tw", "cn", "en", etc.
+* `newData`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `items`: the retrieved `Web::KeyName` list.
+* `userIf`: for user interaction, can be set to `nullptr`.
+
+##### output
+* true if succeeded, false otherwise
+
+##### remark
+* `KeyName` has following has following members:
+| member | type | description |
+| --- | --- | --- |
+| `TypeId` | `std::string` | type id |
+| `Id` | `std::string` | key id for identofying each key(button) |
+| `LocalizedName` | `std::string` | localized name of the key |
 
 
 ## Create Remote
@@ -987,7 +1018,7 @@ IRReader* createIRReader(
 
 ##### description
 
-* create an IR reader instance which implements [IRReader](irreader-class) interface.
+* create an IR reader instance which implements '[BIRReader](BIRReader)' interface.
 
 ##### include
 
@@ -1086,8 +1117,8 @@ void startLearningAndSearchCloud(
 
 ##### remark
 * `startLearningAndSearchCloud` supports the so-called accumulated matching for TV-like remotes.<br> 
-when the `startLearningAndSearchCloud` is continuously invoked, the IR learning data previously sent will be kept in the internal memory for filtering the matching remotes. That is, you can have more accurate match result if several IR learning data belong to the same remote controller is passed in `startLearningAndSearchCloud`.
-Calling `reset` will reset the internal memory to start a new accumulated matching.
+when the startLearningAndSearchCloud is continuously invoked, the IR learning data previously sent will be kept in the internal memory for filtering the matching remotes. That is, you can have more accurate match result if several IR learning data belong to the same remote controller is passed in startLearningAndSearchCloud.
+Calling reset will reset the internal memory to start a new accumulated matching.
 
 
 ### stopLearning
