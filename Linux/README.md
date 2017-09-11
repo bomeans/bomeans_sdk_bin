@@ -630,6 +630,26 @@ int transmitIR(
 |:---:|:---:|:---:|:---:
 |V|V|V|V
 
+## setKeyOption
+```cpp
+```
+
+##### description
+Set the remote internal state for AC type remote
+
+##### input
++ `keyId`: key id of the target key(button) of the remote
++ `optionId`: key option id of the target key state(option)
+
+##### output
++ 0(`ConstValue.BIROK`) if succeeded, or error code if failed
+
+##### availability
+| <sub>TV-like</sub> | <sub>TV-Like Universal</sub> | <sub>AC</sub> | <sub>AC Universal</sub>
+|:---:|:---:|:---:|:---:
+| | |V|V
+
+
 ### beginTransmitIR
 ```cpp
 int beginTransmitIR(
