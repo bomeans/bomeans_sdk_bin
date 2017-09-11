@@ -5,15 +5,15 @@
 ## Contents
 #### initialization
 * [IRKit::setupp](#irkitsetup)
-* [IRKit::setUseChineseServer](#setusechineseserver)
-* [IRKit::setIRHW](setirhw)
+* [IRKit::setUseChineseServer](#irkitsetusechineseserver)
+* [IRKit::setIRHW](irkitsetirhw)
 #### Basic Information
-* [Web::getTypeList](#gettypelist)
-* [Web::getBrandList](#getbrandlist)
-* [Web::getTopBrandList](#gettopbrandlist)
-* [Web::getRemoteModelList](#getremotemodellist)
+* [Web::getTypeList](#webgettypelist)
+* [Web::getBrandList](#webgetbrandlist)
+* [Web::getTopBrandList](#webgettopbrandlist)
+* [Web::getRemoteModelList](#webgetremotemodellist)
 #### Create Remote
-* [IRKit::createRemote](#createremote)
+* [IRKit::createRemote](#irkitcreateremote)
 #### Remote (Class)
 * [getAllKeys](#getallkeys)
 * [transmitIR](#transmitir)
