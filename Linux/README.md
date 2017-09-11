@@ -1,4 +1,6 @@
-[NOTE] Bomeans IR SDK for Linux is still in alpha phase.
+[NOTE] 
+* Linux IR SDK is still in alpha phase for tesing.
+* SmartPicker is not included in the Linux SDK.
 
 # Linux SDK Documentation
 
@@ -543,7 +545,7 @@ std::pair<GUIFeature, bool> getGuiFeature()
 |---|---|---
 | `DisplayType ` | `int(enum)` | possible value:<br><ul><li>`GUIFeature::TYPE_NO` - no display panel</li><li>`GUIFeature::TYPE_YES` - has a display panel which is on while powered on</li><li>`GUIFeature::TYPE_ALWAYS` - has a always on display panel regardless of the power on or off</li></ul>
 | `RTC ` | `bool` | <ul><li>`true` - has RTC support</li><li>`false` - no RTC support</li></ul>
-| `timerMode` | int | <ul><li>1 - Only OFF timer is supported</li><li>2 - Support ON and/or OFF timer, can be set only when power is on.</li><li>3 - Support ON and/or OFF timer, can be set regardless of power state.</li><li>4 - Either ON or OFF timer, can be set only when power is on.</li><li>5 - Can set ON timer while powered off; set OFF timer while powered on.</li></ul>
+| `timerMode` | `int` | <ul><li>1 - Only OFF timer is supported</li><li>2 - Support ON and/or OFF timer, can be set only when power is on.</li><li>3 - Support ON and/or OFF timer, can be set regardless of power state.</li><li>4 - Either ON or OFF timer, can be set only when power is on.</li><li>5 - Can set ON timer while powered off; set OFF timer while powered on.</li></ul>
 | `timerCountDown` | `bool` | <ul><li>`true` - timer is count down type</li><li>`false` - timer is not count down type</li></ul>
 | `timerClock` | `bool` | <ul><li>`true` - timer is clock type</li><li>`false` - timer is not clock type</li></ul>
 
