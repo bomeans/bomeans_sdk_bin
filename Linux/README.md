@@ -4,7 +4,7 @@
 * libaray dependency: curl
 
 ## Contents
-#### initialization
+### Initialization
 * [`IRKit::setup`](#irkitsetup)
 * [`IRKit::setUseChineseServer`](#irkitsetusechineseserver)
 * [`IRKit::setIRHW`](#irkitsetirhw)
@@ -12,13 +12,13 @@
 * [`sendData`](#senddata)
 * [`setReceiveDataCallback`](#setreceivedatacallback)
 * [`isConnection`](#isconnection)
-#### Basic Information
+### Basic Information
 * [`Web::getTypeList`](#webgettypelist)
 * [`Web::getBrandList`](#webgetbrandlist)
 * [`Web::getTopBrandList`](#webgettopbrandlist)
 * [`Web::getRemoteModelList`](#webgetremotemodellist)
 * [`Web::getKeyName`](#webgetkeyname)
-#### Create Remote
+### Create Remote
 * [`IRKit::createRemote`](#irkitcreateremote)
 #### Remote (Class)
 * [`getAllKeys`](#getallkeys)
@@ -38,7 +38,7 @@
 * [`setOnTime`](#setontime)
 * [`getACStoreDatas`](#getacstoredatas)
 * [`restoreACStoreDatas`](#restoreacstoredatas)
-#### IR Learning
+### IR Learning
 * [`startLearningAndGetData`](#irkitcreateirreader)
 * [`startLearningAndSearchCloud`](#startlearningandsearchcloud)
 * [`reset`](#reset)
