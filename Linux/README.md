@@ -551,7 +551,7 @@ bool getKeyName(
 ##### input
 * `typeId`: type id which can be retrieved from webGetTypeList
 * `language`: language code such as "tw", "cn", "en", etc.
-* `newData`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
+* `getNew`: true to pull the data from cloud, false to read the previous downloaded data (cached data) first if any.
 * `items`: the retrieved `Web::KeyName` list.
 * `userIf`: for user interaction, can be set to `nullptr`.
 
