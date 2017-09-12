@@ -839,7 +839,7 @@ std::pair<KeyOption, bool>  getKeyOption(
 * get all possible options of the specified key
 
 ##### input
-* `keyId`: the target key id
+* `keyID`: the target key id
  
 ##### output
 * 'std::pair<KeyOption, bool>'. The returned `bool` value indicating if the returned `KeyOption` is valid. If the returned `bool` valus is false, most likely you are giving the wrong keyID, or you are asking the key options for TV-like remote controllers which do not have key options.
@@ -976,11 +976,13 @@ std::vector<StoreData> getACStoreDatas()
 
 ##### remark
 * `StoreData` has the following public members
+
 | member | type | description
 |---|---|---
 | `mode` | `int` | The mode this data relates to
 | `state` | `std::string` | the state id of this data
 | `value` | `int` | the value of this data
+
 *<sub>You do not need to parse the data content. Just save the returned `std::vector<StoreData>` for later use if you are planning to retore the remote controller's state in later time.</sub>
 
 ##### availability
