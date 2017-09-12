@@ -1,0 +1,5 @@
+## Release Note
+
+* #### 2017/09/11
+** added IRKit::setKeyOption support to Remote class
+** added Web::getKeyName support
