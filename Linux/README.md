@@ -2,6 +2,7 @@
 * Linux IR SDK is still in alpha phase for tesing.
 * SmartPicker is not included in the Linux SDK.
 * libaray dependency: curl
+* library files build environment: Ubuntu 16.04.03 LTS / gcc 5.4.0
 
 ## Contents
 ### Initialization
