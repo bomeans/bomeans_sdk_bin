@@ -19,6 +19,7 @@ If you are using Android Studio:<br>
 <li>Copy the sub-folders containing the .so files to the \src\main\jniLibs folder in your project.</li>
 <li>Copy the .jar files to the \libs folder in your project.</li>
 Note: You also need to have the following settings in your build.gradle(Module:your_app):<br>
+
 ```java
 dependencies {
     ...
@@ -28,6 +29,7 @@ dependencies {
 ```
 ## Adding App Permissions
 The following permissions need to be added to your AndroidMenifest.xml:
+
 ```java
 android.permission.INTERNET
 android.permission.ACCESS_WIFI_STATE
